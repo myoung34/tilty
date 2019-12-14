@@ -1,0 +1,27 @@
+repos:
+- repo: git://github.com/pre-commit/pre-commit-hooks
+  rev: v1.4.0
+  hooks:
+  - id: check-yaml
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
+  - id: check-case-conflict
+  - id: check-merge-conflict
+  - id: check-executables-have-shebangs
+  - id: check-ast
+  - id: flake8
+    args: ['--config=setup.cfg']
+  - id: fix-encoding-pragma
+  - id: detect-private-key
+- repo: git://github.com/asottile/add-trailing-comma
+  rev: v0.6.4
+  hooks:
+  - id: add-trailing-comma
+- repo: git://github.com/detailyang/pre-commit-shell
+  rev: 1.0.2
+  hooks:
+  - id: shell-lint
+- repo: https://github.com/stratasan/hadolint-pre-commit
+  rev: cdefcb096e520a6daa9552b1d4636f5f1e1729cd
+  hooks:
+  - id: hadolint

@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  tilty:
+    container_name: tilty
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: "host"

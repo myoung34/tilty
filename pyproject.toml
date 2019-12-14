@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "Tilty"
+version = "0.0.1"
+description = "A pluggable system to receive and transmit bluetooth events from the Tilt Hydrometer"
+authors = ["Marcus Young <3vilpenguin@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+click = "^7.0"
+pybluez = "^0.22.0"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.7"
+pytest = "^5.3"
+pylint = "^2.4"
+pytest-cov = "^2.8"
+coverage = "^5.0"
+isort = "^4.3"
+tox = "^3.14"
+
+[tool.tox]
+legacy_tox_ini = """
+
+[tox]
+isolated_build = True
+envlist = py37
+skipsdist = True
+toxworkdir=.tox
+usedevelop=True
+
+[testenv]
+commands =
+    #isort -c -rc tilty -sp {toxinidir}
+    #pylint --rcfile {toxinidir}/.pylintrc -r n tilty
+    py.test --cov-config .coveragerc --cov tilty --cov-report term-missing --cov-report xml --junitxml junit.xml tests {posargs}
+whitelist_externals = make
+                      bash
+                      pylint
+"""
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
