@@ -6,7 +6,6 @@ authors = ["Marcus Young <3vilpenguin@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.7"
 click = "^7.0"
 pybluez = "^0.22.0"
 
@@ -31,8 +30,8 @@ usedevelop=True
 
 [testenv]
 commands =
-    #isort -c -rc tilty -sp {toxinidir}
-    #pylint --rcfile {toxinidir}/.pylintrc -r n tilty
+    isort -c -rc tilty -sp {toxinidir}
+    pylint --rcfile {toxinidir}/.pylintrc -r n tilty
     py.test --cov-config .coveragerc --cov tilty --cov-report term-missing --cov-report xml --junitxml junit.xml tests {posargs}
 whitelist_externals = make
                       bash
@@ -41,4 +40,3 @@ whitelist_externals = make
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
-

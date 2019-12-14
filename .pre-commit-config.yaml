@@ -13,10 +13,6 @@ repos:
     args: ['--config=setup.cfg']
   - id: fix-encoding-pragma
   - id: detect-private-key
-- repo: git://github.com/asottile/add-trailing-comma
-  rev: v0.6.4
-  hooks:
-  - id: add-trailing-comma
 - repo: git://github.com/detailyang/pre-commit-shell
   rev: 1.0.2
   hooks:

@@ -32,11 +32,14 @@ class TiltDevice:  # pylint: disable=too-few-public-methods
     def scan_for_tilt_data(self):
         """ scan for tilt and return data if found """
 
+        data = None
         for beacon in blescan.parse_events(self.sock, 10):
             if beacon['uuid'] in constants.TILT_DEVICES:
-                return {
+                data = {
                     'color': constants.TILT_DEVICES[beacon['uuid']],
                     'gravity': beacon['minor'],
                     'temp': beacon['major'],
                     'timestamp': datetime.now().isoformat(),
                 }
+
+        return data
