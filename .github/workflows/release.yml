@@ -27,6 +27,26 @@ jobs:
       run: echo "::set-env name=PYTHONPATH::$(pwd)"
     - name: pytest
       run: py.test --cov-config .coveragerc --cov tilty --cov-report term-missing --cov-report xml --junitxml junit.xml tests
+  upload_to_pypi:
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+    - name: Copy Repo Files
+      uses: actions/checkout@master
+    - name: Setup python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+        architecture: x64
+    - name: pre-reqs
+      run: pip install twine wheel
+    - name: Build
+      run: python setup.py sdist bdist_wheel
+    - name: upload
+      run: python -m twine upload dist/* --verbose
+      env:
+        TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+        TWINE_PASSWORD : ${{ secrets.TWINE_PASSWORD }}
   ubuntu_tag_deploy_x86:
     runs-on: ubuntu-latest
     needs: [test]
