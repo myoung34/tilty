@@ -1,4 +1,4 @@
 #!/bin/bash
-export LC_ALL=en_US.utf8
-export LANG=en_US.utf8
-exec tilty
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+exec tilty -r

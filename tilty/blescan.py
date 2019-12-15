@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # based on https://github.com/switchdoclabs/iBeacon-Scanner-
 # pylint: skip-file
 
@@ -106,7 +107,7 @@ def parse_events(sock, loop_count=100):
         ptype, event, plen = struct.unpack('BBB', pkt[:3])
 
         if event == LE_META_EVENT:
-            subevent, = struct.unpack('B', pkt[3])
+            subevent, = struct.unpack('B', str(pkt[3]).encode())
             pkt = pkt[4:]
             if subevent == EVT_LE_CONN_COMPLETE:
                 le_handle_connection_complete(pkt)
