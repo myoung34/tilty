@@ -35,10 +35,21 @@ $ tilty
 
 ### From docker ###
 
+#### From source ####
+
 ```
+$ git clone https://github.com/myoung34/tilty
 $ docker-compose build
 $ docker-compose run tilty
 ```
+
+#### From the upstream image ####
+
+```
+$ docker run -it --net=host myoung34/tilty:latest # for x86_64
+$ docker run -it --net=host myoung34/tilty:latest-arm # for ARM
+```
+
 
 ## Installation ##
 

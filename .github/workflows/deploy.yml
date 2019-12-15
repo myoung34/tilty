@@ -1,0 +1,54 @@
+name: Publish Docker
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.6', '3.7', '3.8' ]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup python
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: x64
+    - name: install pre-reqs
+      run: sudo apt-get install libbluetooth-dev && pip install -r requirements.txt
+    - name: isort
+      run: isort -c -rc tilty -sp .
+    - name: pylint
+      run: pylint --rcfile .pylintrc -r n tilty
+    - name: set pythonpath
+      run: echo "::set-env name=PYTHONPATH::$(pwd)"
+    - name: pytest
+      run: py.test --cov-config .coveragerc --cov tilty --cov-report term-missing --cov-report xml --junitxml junit.xml tests
+  ubuntu_latest_deploy_x86:
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+    - name: Copy Repo Files
+      uses: actions/checkout@master
+    - name: Build
+      run: docker build -t myoung34/tilty:latest .
+    - name: Login
+      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+    - name: Push to hub registry
+      run: docker push myoung34/tilty:latest
+  ubuntu_latest_deploy_arm:
+    runs-on: self-hosted
+    needs: [test]
+    steps:
+    - name: Copy Repo Files
+      uses: actions/checkout@master
+    - name: Build
+      run: docker build -t myoung34/tilty:latest-arm .
+    - name: Login
+      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+    - name: Push to hub registry
+      run: docker push myoung34/tilty:latest-arm
