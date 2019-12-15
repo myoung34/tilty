@@ -1,4 +1,7 @@
 docker-compose.yml
 Dockerfile
 README.md
-.github/
+.github
+Makefile
+.git
+LICENSE
