@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Setup file for the package"""
 from setuptools import find_packages, setup
 
@@ -7,7 +8,7 @@ setup(
     author='Marcus Young',
     author_email='3vilpenguin@gmail.com',
     py_modules=['tilty', 'blescan'],
-    version='0.0.1',
+    version='0.0.2',
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Click',
