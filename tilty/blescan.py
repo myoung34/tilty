@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# flake8: noqa
+# pylint: skip-file
 # BLE iBeaconScanner based on https://github.com/adamf/BLE/blob/master/ble-scanner.py
 # JCS 06/07/14
 # Adapted for Python3 by Michael duPont 2015-04-05
@@ -9,7 +12,7 @@
 # https://kernel.googlesource.com/pub/scm/bluetooth/bluez/+/5.6/lib/hci.h for opcodes
 # https://github.com/pauloborges/bluez/blob/master/lib/hci.c#L2782 for functions used by lescan
 
-# performs a simple device inquiry, and returns a list of ble advertizements 
+# performs a simple device inquiry, and returns a list of ble advertizements
 # discovered device
 
 # NOTE: Python's struct.pack() will add padding bytes unless you make the endianness explicit. Little endian
@@ -20,8 +23,9 @@
 #sudo pip-3.2 install pybluez   #pip-3.2 for Python3.2 on Raspberry Pi
 
 import os
-import sys
 import struct
+import sys
+
 import bluetooth._bluetooth as bluez
 
 LE_META_EVENT = 0x3e
