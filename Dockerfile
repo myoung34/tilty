@@ -1,20 +1,12 @@
-FROM ubuntu:bionic
+FROM python:3.6-alpine
 LABEL maintainer="3vilpenguin@gmail.com"
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN apt-get update && \
-  apt-get install -y --no-install-recommends \
-    build-essential \
-    libbluetooth-dev \
-    python3-dev \
-    python3-pip \
-    python3-setuptools \
-    locales \
-  && rm -rf /var/lib/apt/lists/*
+RUN apk add -U --no-cache alpine-sdk bluez-dev
 
+RUN pip install Click==7.0 PyBluez==0.22
 COPY . /src
 WORKDIR /src
-RUN pip3 install .
+RUN python setup.py install
 
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
