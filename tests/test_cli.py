@@ -24,7 +24,7 @@ def test_cli_no_params_no_valid_data(
     runner = CliRunner()
     result = runner.invoke(cli.run, [])
     assert result.exit_code == 0
-    assert result.output == 'Scanning for Tilt data...\n' # noqa
+    assert result.output == 'Scanning for Tilt data...\n\n' # noqa
 
 
 @mock.patch('tilty.blescan.parse_events', return_value=[]) # noqa
@@ -38,17 +38,15 @@ def test_cli_no_params_no_data(
     runner = CliRunner()
     result = runner.invoke(cli.run, [])
     assert result.exit_code == 0
-    assert result.output == 'Scanning for Tilt data...\n' # noqa
+    assert result.output == 'Scanning for Tilt data...\n\n' # noqa
 
 @mock.patch('tilty.blescan.parse_events', return_value=[{'uuid': 'a495bb30c5b14b44b5121370f02d74de', 'major': 2, 'minor': 1}]) # noqa
-@mock.patch('tilty.tilt_device.datetime') # noqa
 @mock.patch('tilty.blescan.hci_le_set_scan_parameters') # noqa
 @mock.patch('tilty.blescan.hci_enable_le_scan') # noqa
 def test_cli_no_params_success(
     bt_enable_scan,
     bt_set_scan,
     bt_events,
-    dt,
 ):
     runner = CliRunner()
     result = runner.invoke(cli.run, [])

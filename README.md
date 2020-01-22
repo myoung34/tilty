@@ -30,6 +30,15 @@ As it progresses it will have pluggablel emitters such as:
 ### As a cli ###
 
 ```
+$ cat <<EOF >config.ini
+[general]
+sleep_interval = 10
+
+[webhook]
+url = http://www.foo.com
+payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
+method = GET
+EOF
 $ tilty
 ```
 
@@ -56,4 +65,14 @@ $ docker run -it --net=host myoung34/tilty:latest-arm # for ARM
 ```
 $ git clone https://github.com/myoung34/tilty
 $ pip install -e .
+```
+
+## Development ##
+
+```
+$ docker run -it -v $(pwd):/src -w /src --entrypoint /bin/sh python:3.7-alpine
+$ apk add -U openssl-dev alpine-sdk libffi-dev python3-dev py3-bluez bluez-dev
+$ pip3 install poetry
+$ poetry install
+$ poetry run tox
 ```

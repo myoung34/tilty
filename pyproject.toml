@@ -6,8 +6,11 @@ authors = ["Marcus Young <3vilpenguin@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
+python = ">=3.6,<3.8"
 click = "^7.0"
 pybluez = "^0.22.0"
+requests = "^2.22"
+jinja2 = "^2.11.1"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7"
@@ -37,6 +40,3 @@ whitelist_externals = make
                       bash
                       pylint
 """
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"

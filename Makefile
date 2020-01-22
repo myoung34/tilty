@@ -5,7 +5,7 @@ install:
 	rm -rf venv
 
 gen_requirements:
-	poetry run pip freeze > requirements.txt
+	poetry run pip freeze | grep -Ev 'github.*myoung34.tilty' > requirements.txt
 
 test:
 	tox

@@ -8,11 +8,13 @@ setup(
     author='Marcus Young',
     author_email='3vilpenguin@gmail.com',
     py_modules=['tilty', 'blescan'],
-    version='0.0.3',
+    version='0.1.0',
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Click',
+        'Jinja2',
         'pybluez',
+        'requests',
     ],
     entry_points={
         'console_scripts': [
