@@ -26,8 +26,14 @@ class Webhook:  # pylint: disable=too-few-public-methods
 
         Args:
         """
-        self.method(
+        if self.headers and 'json' in self.headers.get('Content-Type'):
+            return self.method(
+                url=self.url,
+                headers=self.headers,
+                json=self.payload,
+            )
+        return self.method(
             url=self.url,
             headers=self.headers,
-            json=self.payload,
+            data=self.payload,
         )
