@@ -4,26 +4,37 @@ from unittest import mock
 from tilty.emitters import influxdb
 
 
-@mock.patch('tilty.emitters.influxdb.requests')
+@mock.patch('tilty.emitters.influxdb.InfluxDBClient')
 def test_influxdb(
-    mock_requests,
+    mock_influx_client,
 ):
     config = {
         'url': 'http://www.google.com',
         'database': 'foo',
-        'temperature_payload': 'temperature,color=Black value=85 1422568543702900257',  # noqa
-        'gravity_payload': 'gravity,color=Black value=1.045 1422568543702900257',  # noqa
+        'gravity_payload': '{"measurement": "gravity", "tags": {"color": "Black"}, "fields": {"value": 1.054}}',  # noqa
+        'temperature_payload': '{"measurement": "temperature", "tags": {"color": "Black", "scale": "fahrenheight"}, "fields": {"value": 32}}',  # noqa
     }
     influxdb.InfluxDB(config=config).emit()
-    assert mock_requests.mock_calls == [
-        mock.call.post(
-            data='temperature,color=Black value=85 1422568543702900257',
-            params=('db', 'mydb'),
-            url='http://www.google.com'
+    assert mock_influx_client.mock_calls == [
+        mock.call(
+            'http://www.google.com',
+            80,
+            None,
+            None,
+            'foo'
         ),
-        mock.call.post(
-            data='gravity,color=Black value=1.045 1422568543702900257',
-            params=('db', 'mydb'),
-            url='http://www.google.com'
-        )
+        mock.call().write_points([
+            {
+                'measurement': 'temperature',
+                'tags': {'color': 'Black', 'scale': 'fahrenheight'},
+                'fields': {'value': 32}
+            }
+        ]),
+        mock.call().write_points([
+            {
+                'measurement': 'gravity',
+                'tags': {'color': 'Black'},
+                'fields': {'value': 1.054}
+            }
+        ])
     ]

@@ -39,12 +39,13 @@ def emit(config, tilt_data):
 
     # <start config sample>
     # [influxdb]
-    # url = http://www.foo.com
+    # url = www.foo.com
+    # port = 80
     # database = tilty
-    # gravity_payload_template = 'gravity,color={{ color }} value={{ gravity }} {{timestamp}}  # noqa
-    # temperature_payload_template = 'temperature,scale=fahrenheit,....
+    # gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ gravity }}}}  # noqa  # pylint: disable=line-too-long
+    # temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}  # noqa  # pylint: disable=line-too-long
     if config.has_section('influxdb'):
-        _gravity_template = Template(config['influxdb']['gravity_payload_template']) # noqa
+        _gravity_template = Template(config['influxdb']['gravity_payload_template'])  # noqa
         _temperature_template = Template(config['influxdb']['temperature_payload_template'])  # noqa
         _config = {
             'url': config['influxdb']['url'],

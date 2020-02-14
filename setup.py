@@ -12,6 +12,7 @@ setup(
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Click',
+        'influxdb',
         'Jinja2',
         'pybluez',
         'requests',

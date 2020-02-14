@@ -35,10 +35,11 @@ payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{
 method = GET
 
 [influxdb]
-url = http://grafana.corp.com
+url = influxdb.corp.com
+port = 80
 database = tilty
-gravity_payload_template = gravity,color={{ color }} value={{ gravity }} {{timestamp}}
-temperature_payload_template = temperature,scale=fahrenheit,color={{ color }} value={{ temp }} {{timestamp}}
+gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ gravity }}}}
+temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}
 EOF
 $ tilty
 ```

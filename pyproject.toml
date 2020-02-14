@@ -11,6 +11,7 @@ click = "^7.0"
 pybluez = "^0.22.0"
 requests = "^2.22"
 jinja2 = "^2.11.1"
+influxdb = "^5.2.3"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7"

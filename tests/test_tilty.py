@@ -50,7 +50,7 @@ def test_scan_for_tilt_data_parse_influxdb(
                 'url': 'http://www.google.com',
                 'database': 'foo',
                 'temperature_payload': 'temperature,scale=fahrenheit,color=black value=32 155558888',  # noqa
-                'gravity_payload': 'temperature,scale=fahrenheit,color=black value=32 155558888'  # noqa
+                'gravity_payload': 'gravity,color=black value=1 155558888'
             }
         ),
         mock.call().emit()
