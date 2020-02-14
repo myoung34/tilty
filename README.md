@@ -13,16 +13,11 @@ This will capture those whenever theyre transmitted and emit them to a backend o
 The Tilt supports writing to a google doc which you could use with something like IFTTT or Zapier, but this is much lighter and lets you decide how you want to push that out with a pluggable backend system.
 
 
-## TODO ##
+## Supported Emitters ##
 
-Right now all it does is log to STDOUT.
-As it progresses it will have pluggablel emitters such as:
 
-  * InfluxDb
-  * Webhooks
-  * SNS
-
-  etc
+* Webhooks
+* InfluxDB
 
 
 ## Usage ##
@@ -38,6 +33,13 @@ sleep_interval = 10
 url = http://www.foo.com
 payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
 method = GET
+
+[influxdb]
+url = influxdb.corp.com
+port = 80
+database = tilty
+gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ gravity }}}}
+temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}
 EOF
 $ tilty
 ```
