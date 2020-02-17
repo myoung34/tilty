@@ -1,6 +1,5 @@
 docker-compose.yml
 Dockerfile
-README.md
 .github
 Makefile
 .git
