@@ -7,3 +7,6 @@ services:
       context: .
       dockerfile: Dockerfile
     network_mode: "host"
+    volumes:
+      - ./config:/etc/tilty
+    command: -r --config-file /etc/tilty/config.ini

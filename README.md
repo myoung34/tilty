@@ -22,12 +22,12 @@ The Tilt supports writing to a google doc which you could use with something lik
 
 ## Usage ##
 
-### As a cli ###
+### Generate Config ###
 
 ```
 $ cat <<EOF >config.ini
 [general]
-sleep_interval = 10
+sleep_interval = 1
 
 [webhook]
 url = http://www.foo.com
@@ -41,26 +41,19 @@ database = tilty
 gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ gravity }}}}
 temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}
 EOF
+```
+
+### Run ###
+
+```
 $ tilty
+$ # Or from docker ( generate config into $cwd/config/config.ini )
+$ docker run -it \
+  -v $(pwd)/config:/etc/tilty \
+  --net=host \
+  myoung34/tilty:latest \
+  -r --config-file /etc/tilty/config.ini
 ```
-
-### From docker ###
-
-#### From source ####
-
-```
-$ git clone https://github.com/myoung34/tilty
-$ docker-compose build
-$ docker-compose run tilty
-```
-
-#### From the upstream image ####
-
-```
-$ docker run -it --net=host myoung34/tilty:latest # for x86_64
-$ docker run -it --net=host myoung34/tilty:latest-arm # for ARM
-```
-
 
 ## Installation ##
 
