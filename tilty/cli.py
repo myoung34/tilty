@@ -3,6 +3,10 @@
 
 import configparser
 import logging
+import signal
+import sys
+import threading
+from functools import partial
 from time import sleep
 
 import click
@@ -14,6 +18,29 @@ LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
 CONFIG = configparser.ConfigParser()
+
+
+def terminate_process(device, signal_number, frame):  # noqa  # pylint: disable=unused-argument
+    """ handle SIGTERM """
+    device.stop()
+    sys.exit()
+
+
+def scan_and_emit(device, config):
+    """ method that does the needful
+    """
+    tilt_data = device.scan_for_tilt_data()
+    click.echo(tilt_data)
+    emit(config=config, tilt_data=tilt_data)
+
+
+def scan_and_emit_thread(device, config, keep_running=False):
+    """ method that calls the needful
+    """
+    scan_and_emit(device, config)
+    while keep_running:
+        scan_and_emit(device, config)
+        sleep(int(config['general']['sleep_interval']))
 
 
 @click.command()
@@ -37,14 +64,14 @@ def run(
     """
     CONFIG.read(config_file)
     click.echo('Scanning for Tilt data...')
-    t = tilt_device.TiltDevice()
-    t.start()
+    device = tilt_device.TiltDevice()
+    signal.signal(signal.SIGINT, partial(terminate_process, device))
+    device.start()
+    threading.Thread(
+        target=scan_and_emit_thread,
+        name='tilty_daemon',
+        args=(device, CONFIG, keep_running)
+    ).start()
     if keep_running:
         while True:
-            tilt_data = t.scan_for_tilt_data()
-            emit(config=CONFIG, tilt_data=tilt_data)
-            sleep(int(CONFIG['general']['sleep_interval']))
-    else:
-        tilt_data = t.scan_for_tilt_data()
-        click.echo(tilt_data)
-        emit(config=CONFIG, tilt_data=tilt_data)
+            pass

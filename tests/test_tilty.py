@@ -11,6 +11,7 @@ def test_scan_for_tilt_data(
 ):
     t = tilt_device.TiltDevice()
     t.scan_for_tilt_data()
+    bt_events.assert_called()
 
 
 @mock.patch('tilty.emitters.webhook.Webhook')

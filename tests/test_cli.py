@@ -6,6 +6,19 @@ from click.testing import CliRunner
 from tilty import cli
 
 
+@mock.patch('tilty.tilt_device')
+@mock.patch('tilty.cli.sys')
+def test_terminate_process(
+    mock_tilt_device,
+    mock_sys,
+):
+    cli.terminate_process(mock_tilt_device, None, None)
+    assert mock_tilt_device.mock_calls == [
+        mock.call.stop(),
+        mock.call.exit()
+    ]
+
+
 def test_cli_invalid_params():
     runner = CliRunner()
     result = runner.invoke(cli.run, ["--foo"])

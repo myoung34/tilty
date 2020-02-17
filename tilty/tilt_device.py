@@ -20,14 +20,19 @@ class TiltDevice:  # pylint: disable=too-few-public-methods
         self.sock = bluez.hci_open_dev(device_id)
 
     def start(self):
-        """ Initializer
+        """ Start scanning and device
 
         Args:
-            device_id: (int) represents the device id for HCI
-            sock: the socket to open
         """
         blescan.hci_le_set_scan_parameters(self.sock)
         blescan.hci_enable_le_scan(self.sock)
+
+    def stop(self):
+        """ Stop scanning and device
+
+        Args:
+        """
+        blescan.hci_disable_le_scan(self.sock)
 
     def scan_for_tilt_data(self):
         """ scan for tilt and return data if found """
