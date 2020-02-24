@@ -83,6 +83,26 @@ version = "5.0"
 toml = ["toml"]
 
 [[package]]
+category = "main"
+description = "The Datadog Python library"
+name = "datadog"
+optional = false
+python-versions = "*"
+version = "0.34.1"
+
+[package.dependencies]
+decorator = ">=3.3.2"
+requests = ">=2.6.0"
+
+[[package]]
+category = "main"
+description = "Decorators for Humans"
+name = "decorator"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*"
+version = "4.4.1"
+
+[[package]]
 category = "dev"
 description = "Discover and load entry points from installed packages."
 name = "entrypoints"
@@ -484,7 +504,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pathlib2", "contextlib2", "unittest2"]
 
 [metadata]
-content-hash = "aaaaaee62ecd567cb981bd6029700fd8189fc7da649f363cbd32793f686a74ad"
+content-hash = "63700482ba8be79d7168685bb69b9e9e9f24efd6ef6537cd82112eec37c5849b"
 python-versions = ">=3.6,<3.8"
 
 [metadata.files]
@@ -548,6 +568,14 @@ coverage = [
     {file = "coverage-5.0-cp39-cp39m-win32.whl", hash = "sha256:79fd5d3d62238c4f583b75d48d53cdae759fe04d4fb18fe8b371d88ad2b6f8be"},
     {file = "coverage-5.0-cp39-cp39m-win_amd64.whl", hash = "sha256:c1b030a79749aa8d1f1486885040114ee56933b15ccfc90049ba266e4aa2139f"},
     {file = "coverage-5.0.tar.gz", hash = "sha256:e1bad043c12fb58e8c7d92b3d7f2f49977dcb80a08a6d1e7a5114a11bf819fca"},
+]
+datadog = [
+    {file = "datadog-0.34.1-py2.py3-none-any.whl", hash = "sha256:186b25a51e160e4d6ee599c647d83dca60d6889f852e07e552fdad18b0d0b6f5"},
+    {file = "datadog-0.34.1.tar.gz", hash = "sha256:3bd8cc3d6915c6ac74c68093068b903de3fae22b8dd3d31480bfc2092a1f51d7"},
+]
+decorator = [
+    {file = "decorator-4.4.1-py2.py3-none-any.whl", hash = "sha256:5d19b92a3c8f7f101c8dd86afd86b0f061a8ce4540ab8cd401fa2542756bce6d"},
+    {file = "decorator-4.4.1.tar.gz", hash = "sha256:54c38050039232e1db4ad7375cfce6748d7b41c29e95a081c8a6d2c30364a2ce"},
 ]
 entrypoints = [
     {file = "entrypoints-0.3-py2.py3-none-any.whl", hash = "sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19"},

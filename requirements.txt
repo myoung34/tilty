@@ -4,6 +4,8 @@ certifi==2019.11.28
 chardet==3.0.4
 Click==7.0
 coverage==5.0
+datadog==0.34.1
+decorator==4.4.1
 entrypoints==0.3
 filelock==3.0.12
 flake8==3.7.9
