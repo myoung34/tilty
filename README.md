@@ -43,6 +43,7 @@ gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ colo
 temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}
 
 [datadog]
+# Note: make sure that the dd agent has DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
 host = statsdhost.corp.com
 port = 8125
 EOF
