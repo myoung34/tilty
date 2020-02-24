@@ -18,7 +18,7 @@ The Tilt supports writing to a google doc which you could use with something lik
 
 * Webhooks
 * InfluxDB
-* DataDog (dogstatsd)
+* Datadog (dogstatsd)
 
 
 ## Usage ##
