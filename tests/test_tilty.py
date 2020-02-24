@@ -56,3 +56,18 @@ def test_scan_for_tilt_data_parse_influxdb(
         ),
         mock.call().emit()
     ]
+
+
+@mock.patch('tilty.emitters.datadog.Datadog')
+def test_scan_for_tilt_data_parse_datadog(
+    mock_dd,
+):
+    config = MockConfigParser('datadog')
+    tilty.emit(
+        config,
+        {'color': 'black', 'gravity': 1, 'temp': 32, 'timestamp': 155558888}
+    )
+    assert mock_dd.mock_calls == [
+        mock.call(config={'host': 'http://api.datadog.com', 'port': '8120', 'gravity': 1, 'temperature': 32, 'color': 'black'}),  # noqa
+        mock.call().emit()
+    ]

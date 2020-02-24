@@ -18,6 +18,11 @@ class MockConfigParser:
                 'gravity_payload_template': 'gravity,color={{ color }} value={{ gravity }} {{timestamp}}',  # noqa
                 'temperature_payload_template': 'temperature,scale=fahrenheit,color={{ color }} value={{ temp }} {{timestamp}}',  # noqa
             }
+        if self.section == 'datadog':
+            return {
+                'host': 'http://api.datadog.com',
+                'port': '8120',
+            }
         return None
 
     def has_section(self, *args, **kwargs):

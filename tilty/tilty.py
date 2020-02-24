@@ -4,7 +4,7 @@ import json
 
 from jinja2 import Template
 
-from tilty.emitters import influxdb, webhook
+from tilty.emitters import datadog, influxdb, webhook
 
 
 def emit(config, tilt_data):
@@ -65,3 +65,18 @@ def emit(config, tilt_data):
         }
         _influxdb = influxdb.InfluxDB(config=_config)
         _influxdb.emit()
+
+    # <start config sample>
+    # [datadog]
+    # host = 'host'
+    # port = 'port'
+    if config.has_section('datadog'):
+        _config = {
+            'host': config['datadog']['host'],
+            'port': config['datadog']['port'],
+            'gravity': tilt_data['gravity'],
+            'temperature': tilt_data['temp'],
+            'color': tilt_data['color'],
+        }
+        _datadog = datadog.Datadog(config=_config)
+        _datadog.emit()

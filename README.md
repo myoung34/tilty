@@ -18,6 +18,7 @@ The Tilt supports writing to a google doc which you could use with something lik
 
 * Webhooks
 * InfluxDB
+* DataDog (dogstatsd)
 
 
 ## Usage ##
@@ -40,6 +41,10 @@ port = 80
 database = tilty
 gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ gravity }}}}
 temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}
+
+[datadog]
+host = statsdhost.corp.com
+port = 8125
 EOF
 ```
 
