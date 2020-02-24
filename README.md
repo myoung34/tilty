@@ -1,6 +1,8 @@
 Tilty
 =====
 
+![](datadog.png)
+
 A python module and CLI to capture and emit events from your [tilt hydrometer](https://tilthydrometer.com/)
 
 I've been unhappy with the quality/inconsistency of what I've seen out there in terms of random scripts that capture.
