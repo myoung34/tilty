@@ -7,7 +7,7 @@ class MockConfigParser:
         if self.section == 'webhook':
             return {
                 'url': 'http://www.google.com',
-                'headers': {'Content-Type': 'application/json'},
+                'headers': '{"Content-Type": "application/json"}',
                 'payload_template': '{"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}',  # noqa
                 'method': 'GET'
             }

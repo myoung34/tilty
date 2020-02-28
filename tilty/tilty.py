@@ -25,7 +25,7 @@ def emit(config, tilt_data):
         _template = Template(config['webhook']['payload_template'])
         _config = {
             'url': config['webhook']['url'],
-            'headers': config['webhook'].get('headers'),
+            'headers': json.loads(config['webhook'].get('headers')),
             'method': config['webhook']['method'],
             'payload': json.loads(_template.render(
                 color=tilt_data['color'],

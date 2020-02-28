@@ -32,10 +32,19 @@ $ cat <<EOF >config.ini
 [general]
 sleep_interval = 1
 
+# Generic application/json example
 [webhook]
 url = http://www.foo.com
+headers = {"Content-Type": "application/json"}
 payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
-method = GET
+method = POST
+
+# Brewstat.us example
+[webhook]
+url = https://www.brewstat.us/tilt/0yjRbGd2/log
+headers = {"Content-Type": "application/x-www-form-urlencoded; charset=utf-8"}
+payload_template = {"Color": "{{ color }}", "SG": {{ gravity }}, "Temp": {{ temp }}, "Timepoint": "{{ timestamp }}"}
+method = POST
 
 [influxdb]
 url = influxdb.corp.com
