@@ -88,3 +88,13 @@ $ pip3 install poetry
 $ poetry install
 $ poetry run tox
 ```
+
+### Functional Development ###
+
+To test locally (and without using my tilty): I use iBeacon on android and set:
+
+* UUID to one of the ones listed in [here](tilty/constants.py)
+* Major to a temperature in F
+* Minor to an SG*1000
+
+![](ibeacon.png)
