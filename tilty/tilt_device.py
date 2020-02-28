@@ -42,7 +42,7 @@ class TiltDevice:  # pylint: disable=too-few-public-methods
             if beacon['uuid'] in constants.TILT_DEVICES:
                 data = {
                     'color': constants.TILT_DEVICES[beacon['uuid']],
-                    'gravity': beacon['minor'],
+                    'gravity': float(beacon['minor']/1000),
                     'temp': beacon['major'],
                     'timestamp': datetime.now().isoformat(),
                 }
