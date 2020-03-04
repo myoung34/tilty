@@ -13,6 +13,7 @@ requests = "^2.22"
 jinja2 = "^2.11.1"
 influxdb = "^5.2.3"
 datadog = "^0.34.1"
+coveralls = "^1.11.1"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7"
@@ -38,6 +39,7 @@ commands =
     isort -c -rc tilty -sp {toxinidir}
     pylint --rcfile {toxinidir}/.pylintrc -r n tilty
     py.test --cov-config .coveragerc --cov tilty --cov-report term-missing --cov-report xml --junitxml junit.xml tests {posargs}
+    coveralls
 whitelist_externals = make
                       bash
                       pylint
