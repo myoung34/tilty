@@ -1,14 +1,14 @@
-install:
-	if [ ! -d venv ]; then virtualenv venv; fi
-	. venv/bin/activate
-	pip3 install -r requirements.txt -t dist/ >/dev/null
-	rm -rf venv
+setup:
+	poetry install
 
 gen_requirements:
-	poetry run pip freeze | grep -Ev 'github.*myoung34.tilty' > requirements.txt
+	poetry export -f requirements.txt >requirements.txt
+
+gen_requirements_dev:
+	poetry export --dev -f requirements.txt >requirements-dev.txt
 
 test:
-	tox
+	poetry run tox
 
 .PHONY: build test
 build:
