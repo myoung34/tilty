@@ -39,29 +39,31 @@ EVT_LE_ADVERTISING_REPORT=0x02
 def getBLESocket(devID):
 	return bluez.hci_open_dev(devID)
 
-def returnnumberpacket(pkt):
+def number_packet(pkt):
+    # b'\x89='
     myInteger = 0
     multiple = 256
     for i in range(len(pkt)):
+        # 35072
+        # 61
         myInteger += struct.unpack("B",pkt[i:i+1])[0] * multiple
         multiple = 1
-    return myInteger
+    return myInteger # 35133
 
-def returnstringpacket(pkt):
+def string_packet(pkt):
+    #  UUID is 16 Bytes
+    # b'\xfe\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+    # so len() is 16
+    # loop over each byte, get it to hex, build up the string (uuid is 32 chars, 16bytes)
     myString = "";
-    for i in range(len(pkt)):
+    for i in range(len(pkt)):  # 0-16 loop
         myString += "%02x" %struct.unpack("B",pkt[i:i+1])[0]
     return myString
 
-def get_packed_bdaddr(bdaddr_string):
-    packable_addr = []
-    addr = bdaddr_string.split(':')
-    addr.reverse()
-    for b in addr:
-        packable_addr.append(int(b, 16))
-    return struct.pack("<BBBBBB", *packable_addr)
-
 def packed_bdaddr_to_string(bdaddr_packed):
+    #  iBeacon packets have the mac byte-reversed, reverse with bdaddr_packed[::-1]
+    #  b'ID\x8b\xea&b' -> b'b&\xea\x8bDI'
+    #  decode to int -> (98, 38, 234, 139, 68, 73) , join by : as hex -> '62:26:ea:8b:44:49'
     return ':'.join('%02x'%i for i in struct.unpack("<BBBBBB", bdaddr_packed[::-1]))
 
 def hci_enable_le_scan(sock):
@@ -86,28 +88,24 @@ def parse_events(sock, loop_count=100):
     beacons = []
     for i in range(0, loop_count):
         pkt = sock.recv(255)
-        ptype, event, plen = struct.unpack("BBB", pkt[:3])
-        if event == bluez.EVT_INQUIRY_RESULT_WITH_RSSI:
-            i = 0
-        elif event == bluez.EVT_NUM_COMP_PKTS:
-            i = 0
-        elif event == bluez.EVT_DISCONN_COMPLETE:
-            i = 0
-        elif event == LE_META_EVENT:
-            subevent, = struct.unpack("B", pkt[3:4])
-            pkt = pkt[4:]
-            if subevent == EVT_LE_CONN_COMPLETE:
-                le_handle_connection_complete(pkt)
-            elif subevent == EVT_LE_ADVERTISING_REPORT:
-                num_reports = struct.unpack("B", pkt[0:1])[0]
-                report_pkt_offset = 0
+        # http://www.havlena.net/wp-content/themes/striking/includes/timthumb.php?src=/wp-content/uploads/ibeacon-packet.png&w=600&zc=1
+        #pkt = b'\x04>+\x02\x01\x03\x01r\xed\x08S\x84=\x1f\x1e\xff\x06\x00\x01\t \x02)\xa7\x93\xe2\xfdD\x1b\xafhOH\xef>mn\x91\xcb\x14\x02$\x98\xc7\xef\xb3'
+        #       |      |   |   |   |    |             |                                   |                                          |     |              |
+        #       | event|sub|#rep\  |    |  mac addr   |                                   |    uuid                                  | major\ minor|      |
+        ptype, event, plen = struct.unpack("BBB", pkt[:3])  # b'\x04>(' -> (4, 62, 40)
+        if event == LE_META_EVENT:  # 62 -> 0x3e -> HCI Event: LE Meta Event (0x3e) plen 39
+            subevent, = struct.unpack("B", pkt[3:4]) # b'\x02' -> (2,)
+            # chop off \x04>+\x02 (the event + subevent)
+            pkt = pkt[4:]  # b'\x01\x03\x01r\xed\x08S\x84=\x1f\x1e\xff\x06\x00\x01\t \x02)\xa7\x93\xe2\xfdD\x1b\xafhOH\xef>mn\x91\xcb\x14\x02$\x98\xc7\xef\xb3'
+            if subevent == EVT_LE_ADVERTISING_REPORT:  # if 0x02 (2) -> all iBeacons use this
+                num_reports = struct.unpack("B", pkt[0:1])[0]  # b'\x01' -> (1,) -> number of reports to receive
                 for i in range(0, num_reports):
                     # build the return string
                     beacons.append({
-                        'mac': packed_bdaddr_to_string(pkt[report_pkt_offset + 3:report_pkt_offset + 9]),
-                        'uuid': returnstringpacket(pkt[report_pkt_offset - 22: report_pkt_offset - 6]),
-                        'minor': returnnumberpacket(pkt[report_pkt_offset - 4: report_pkt_offset - 2]),
-                        'major': returnnumberpacket(pkt[report_pkt_offset - 6: report_pkt_offset - 4]),
+                        'mac': packed_bdaddr_to_string(pkt[3:9]),  #  b'r\xed\x08S\x84='
+                        'uuid': string_packet(pkt[22:6]),    #  b'\x93\xe2\xfdD\x1b\xafhOH\xef>mn\x91\xcb\x14'
+                        'minor': number_packet(pkt[4:2]),    #  b'\x98\xc7'
+                        'major': number_packet(pkt[6:4]),    #  b'\x02$'
                     })
     sock.setsockopt( bluez.SOL_HCI, bluez.HCI_FILTER, old_filter )
     return beacons
