@@ -30,8 +30,9 @@ def scan_and_emit(device, config):
     """ method that does the needful
     """
     tilt_data = device.scan_for_tilt_data()
-    click.echo(tilt_data)
-    emit(config=config, tilt_data=tilt_data)
+    if tilt_data:
+        click.echo(tilt_data)
+        emit(config=config, tilt_data=tilt_data)
 
 
 def scan_and_emit_thread(device, config, keep_running=False):
