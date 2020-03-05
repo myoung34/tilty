@@ -5,7 +5,7 @@ from mock_config_parser import MockConfigParser
 from tilty import tilt_device, tilty
 
 
-@mock.patch('tilty.blescan.parse_events', return_value=[{'uuid': 'foo', 'major': 2, 'minor': 1}]) # noqa
+@mock.patch('tilty.blescan.get_events', return_value=[{'uuid': 'foo', 'major': 2, 'minor': 1}]) # noqa
 def test_scan_for_tilt_data(
     bt_events,
 ):
