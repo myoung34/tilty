@@ -10,19 +10,6 @@ def get_socket(device_id):
     return bluez.hci_open_dev(device_id)
 
 
-def number_packet(pkt):
-    # for(each byte) -> (start at 256 offset) -> byte as int * index -> add up
-    # b'\x89=' -> loop -> 137*256 -> + -> 61 -> 35133
-    _int = 0
-    multiple = 256
-    for i in range(len(pkt)):
-        # 35072
-        # 61
-        _int += struct.unpack("B", pkt[i:i+1])[0] * multiple
-        multiple = 1
-    return _int  # 35133
-
-
 def string_packet(pkt):
     #  UUID is 16 Bytes
     # b'\xfe\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
@@ -85,9 +72,9 @@ def parse_packet(pkt):
         subevent, = struct.unpack("B", pkt[3:4])  # b'\x02' -> (2,)
         if subevent == 0x02:  # if 0x02 (2) -> all iBeacons use this
             return {
-                'mac': packed_bdaddr_to_string(pkt[3:9]),  # mac   -> 6 bytes -> b'\x02\x01\x03\x01w\t'  # noqa
-                'uuid': string_packet(pkt[-22:-6]),        # uuid  -> 16bytes -> b'\xa4\x95\xbb0\xc5\xb1KD\xb5\x12\x13p\xf0-t\xde'  # noqa
-                'major': number_packet(pkt[-6:-4]),        # major -> 2 bytes -> b'\x00B'  # noqa
-                'minor': number_packet(pkt[-4:-2]),        # minor -> 2 bytes -> b'\x03\xf7'  # noqa
+                'mac': packed_bdaddr_to_string(pkt[3:9]),   # mac   -> 6 bytes -> b'\x02\x01\x03\x01w\t'  # noqa
+                'uuid': string_packet(pkt[-22:-6]),         # uuid  -> 16bytes -> b'\xa4\x95\xbb0\xc5\xb1KD\xb5\x12\x13p\xf0-t\xde'  # noqa
+                'major': int.from_bytes(pkt[-6:-4], "big"), # major -> 2 bytes -> b'\x00B'  # noqa
+                'minor': int.from_bytes(pkt[-4:-2], "big"), # minor -> 2 bytes -> b'\x03\xf7'  # noqa
             }
     return {}
