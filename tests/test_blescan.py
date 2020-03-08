@@ -2,11 +2,6 @@
 from tilty import blescan
 
 
-def test_number_packet():
-    assert blescan.number_packet(b'\x89=') == 35133
-    assert blescan.number_packet(b'\x98\xc7') == 39111
-
-
 def test_string_packet():
     assert blescan.string_packet(b'\xfe\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00') == 'fe000000000000000000000000000000'  # noqa
     assert blescan.string_packet(b'\x93\xe2\xfdD\x1b\xafhOH\xef>mn\x91\xcb\x14') == '93e2fd441baf684f48ef3e6d6e91cb14'  # noqa
