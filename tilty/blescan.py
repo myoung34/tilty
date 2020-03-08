@@ -15,10 +15,7 @@ def string_packet(pkt):
     # b'\xfe\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
     # so len() is 16
     # loop over each byte, get it to hex, build up the string (uuid is 32 chars, 16bytes)  # noqa
-    _str = ""
-    for i in range(len(pkt)):  # 0-16 loop
-        _str += "%02x" % struct.unpack("B", pkt[i:i+1])[0]
-    return _str
+    return ''.join(["%02x" % int.from_bytes(pkt[i:i+1], "big") for i in range(len(pkt))])  # noqa
 
 
 def packed_bdaddr_to_string(bdaddr_packed):
