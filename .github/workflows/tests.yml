@@ -30,7 +30,21 @@ jobs:
       run: echo "::set-env name=PYTHONPATH::$(pwd)"
     - name: pytest
       run: py.test --cov-config .coveragerc --cov tilty --cov-report term-missing --cov-report xml --junitxml junit.xml tests
+    - name: bandit
+      run: bandit -r tilty
     - name: coveralls
       run: coveralls
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+  clair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prep clair
+        run: docker-compose -f docker-compose-clair.yml up -d
+      - name: Download Clair-Scanner
+        run: curl -Ls https://github.com/arminc/clair-scanner/releases/download/v12/clair-scanner_linux_amd64 -o clair-scanner && chmod +x clair-scanner
+      - name: Build
+        run: docker build -t myoung34/tilty:latest .
+      - name: Test
+        run: ./clair-scanner --ip $(ip -f inet addr show eth0 | grep -Po 'inet \K[\d.]+') myoung34/tilty:latest
