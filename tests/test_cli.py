@@ -23,7 +23,7 @@ def test_cli_invalid_params():
     runner = CliRunner()
     result = runner.invoke(cli.run, ["--foo"])
     assert result.exit_code == 2
-    assert result.output == 'Usage: run [OPTIONS]\nTry "run --help" for help.\n\nError: no such option: --foo\n' # noqa
+    assert result.output == 'Usage: run [OPTIONS]\nTry \'run --help\' for help.\n\nError: no such option: --foo\n' # noqa
 
 
 @mock.patch('tilty.blescan.get_events', return_value=[{'uuid': 'foo', 'major': 78, 'minor': 1833}]) # noqa
