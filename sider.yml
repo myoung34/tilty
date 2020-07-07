@@ -1,6 +1,5 @@
 linter:
   flake8:
     plugins:
-      - flake8-bandit
       - flake8-builtins==1.4.1
       - flake8-mypy>=17.3.3
