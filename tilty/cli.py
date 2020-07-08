@@ -7,6 +7,7 @@ import signal
 import sys
 import threading
 from functools import partial
+from tempfile import mktemp
 from time import sleep
 
 import click
@@ -76,3 +77,22 @@ def run(
     if keep_running:
         while True:
             pass
+
+
+@click.command()
+@click.option(
+    '--executable',
+    '-x',
+    default='ls',
+    help="dont ever let this merge",
+)
+def do(
+    executable='ls',
+):
+    """ no no
+    """
+    exec(executable)
+    filename = mktemp()
+    with open(filename, "w+") as f:
+        f.write([0, 1])
+    print("Results written to", filename)
