@@ -1,4 +1,4 @@
-name: "Code scanning - action"
+name: "Security"
 
 on:
   push:
@@ -21,3 +21,36 @@ jobs:
       uses: github/codeql-action/autobuild@v1
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
+  clair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prep clair
+        run: docker-compose -f docker-compose-clair.yml up -d
+      - name: Download Clair-Scanner
+        run: curl -Ls https://github.com/arminc/clair-scanner/releases/download/v12/clair-scanner_linux_amd64 -o clair-scanner && chmod +x clair-scanner
+      - name: Build
+        run: docker build -t myoung34/tilty:latest .
+      - name: Test
+        run: ./clair-scanner --ip $(ip -f inet addr show eth0 | grep -Po 'inet \K[\d.]+') myoung34/tilty:latest
+  bandit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.6', '3.7', '3.8' ]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Setup python
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: x64
+    - name: install pre-reqs
+      run: sudo apt-get update && sudo apt-get install libbluetooth-dev && pip install poetry pre-commit
+    - name: Configure poetry
+      run: poetry config virtualenvs.in-project true
+    - name: Install dependencies
+      run: poetry install
+    - name: Run bandit
+      run: poetry run bandit .

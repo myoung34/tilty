@@ -6,7 +6,7 @@ authors = ["Marcus Young <3vilpenguin@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">=3.6,<3.8"
+python = ">=3.6"
 click = "^7.0"
 pybluez = "^0.22.0"
 requests = "^2.22"
@@ -23,23 +23,4 @@ pytest-cov = "^2.8"
 coverage = "^5.0"
 isort = "^4.3"
 tox = "^3.14"
-
-[tool.tox]
-legacy_tox_ini = """
-
-[tox]
-isolated_build = True
-envlist = py37
-skipsdist = True
-toxworkdir=.tox
-usedevelop=True
-
-[testenv]
-commands =
-    isort -c -rc tilty -sp {toxinidir}
-    pylint --rcfile {toxinidir}/.pylintrc -r n tilty
-    py.test --cov-config .coveragerc --cov tilty --cov-report term-missing --cov-report xml --junitxml junit.xml tests {posargs}
-whitelist_externals = make
-                      bash
-                      pylint
-"""
+bandit = "^1.6.2"
