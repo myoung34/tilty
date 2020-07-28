@@ -39,6 +39,8 @@ sleep_interval = 1
 url = http://www.foo.com
 headers = {"Content-Type": "application/json"}
 payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
+# optional payload to include mac address
+# payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "mac": {{ mac }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
 method = POST
 
 # Brewstat.us example
@@ -54,6 +56,10 @@ port = 80
 database = tilty
 gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ gravity }}}}
 temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}
+# optional payload to include mac address
+# gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}", "mac": "{{ mac }}"}, "fields": {"value": {{ gravity }}}}
+# temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}", "mac": "{{ mac }}"}, "fields": {"value": {{ temp }}}}
+# `% curl  -s -G 'http://influxdb.service.consul:8086/query?pretty=true' --data-urlencode "db=tilty" --data-urlencode 'q=SELECT "value", "mac", "color" FROM "autogen"."gravity"' | jq '.results[].series[].values[0]'`
 
 [datadog]
 # Note: make sure that the dd agent has DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true

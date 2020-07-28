@@ -30,6 +30,7 @@ def emit(config, tilt_data):
             'payload': json.loads(_template.render(
                 color=tilt_data['color'],
                 gravity=tilt_data['gravity'],
+                mac=tilt_data['mac'],
                 temp=tilt_data['temp'],
                 timestamp=tilt_data['timestamp'],
             )),
@@ -53,12 +54,14 @@ def emit(config, tilt_data):
             'temperature_payload': _temperature_template.render(
                 color=tilt_data['color'],
                 gravity=tilt_data['gravity'],
+                mac=tilt_data['mac'],
                 temp=tilt_data['temp'],
                 timestamp=tilt_data['timestamp'],
             ),
             'gravity_payload': _gravity_template.render(
                 color=tilt_data['color'],
                 gravity=tilt_data['gravity'],
+                mac=tilt_data['mac'],
                 temp=tilt_data['temp'],
                 timestamp=tilt_data['timestamp'],
             ),
@@ -75,6 +78,7 @@ def emit(config, tilt_data):
             'host': config['datadog']['host'],
             'port': config['datadog']['port'],
             'gravity': tilt_data['gravity'],
+            'mac': tilt_data['mac'],
             'temperature': tilt_data['temp'],
             'color': tilt_data['color'],
         }
