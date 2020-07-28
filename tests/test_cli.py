@@ -53,7 +53,7 @@ def test_cli_no_params_no_data(
     assert result.exit_code == 0
     assert result.output == 'Scanning for Tilt data...\n' # noqa
 
-@mock.patch('tilty.blescan.get_events', return_value=[{'uuid': 'a495bb30c5b14b44b5121370f02d74de', 'major': 60, 'minor': 1053}]) # noqa
+@mock.patch('tilty.blescan.get_events', return_value=[{'mac': '00:0a:95:9d:68:16', 'uuid': 'a495bb30c5b14b44b5121370f02d74de', 'major': 60, 'minor': 1053}]) # noqa
 @mock.patch('tilty.blescan.hci_le_set_scan_parameters') # noqa
 @mock.patch('tilty.blescan.hci_enable_le_scan') # noqa
 def test_cli_no_params_success(
@@ -64,4 +64,4 @@ def test_cli_no_params_success(
     runner = CliRunner()
     result = runner.invoke(cli.run, [])
     assert result.exit_code == 0
-    assert "Scanning for Tilt data...\n{'color': 'Black', 'gravity': 1.053, 'temp': 60, 'timestamp'" in result.output# noqa
+    assert "Scanning for Tilt data...\n{'color': 'Black', 'gravity': 1.053, 'temp': 60, 'mac': '00:0a:95:9d:68:16', 'timestamp'" in result.output# noqa

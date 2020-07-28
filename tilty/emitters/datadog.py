@@ -20,6 +20,7 @@ class Datadog:  # pylint: disable=too-few-public-methods
         self.temperature = config['temperature']
         self.gravity = config['gravity']
         self.color = config['color']
+        self.mac = config['mac']
         options = {
             'statsd_host': config['host'],
             'statsd_port': safe_get_key(config, 'port', 8125),
@@ -32,14 +33,20 @@ class Datadog:  # pylint: disable=too-few-public-methods
         Args:
         """
         LOGGER.info('[datadog] posting temperature data')
+        tags = [f"color:{self.color}"]
+        if self.mac:
+            tags = [
+                f"color:{self.color}",
+                f"mac:{self.mac}",
+            ]
         statsd.gauge(
             'tilty.temperature',
             self.temperature,
-            tags=[f"color:{self.color}"]
+            tags=tags,
         )
         LOGGER.info('[datadog] posting gravity data')
         statsd.gauge(
             'tilty.gravity',
             self.gravity,
-            tags=[f"color:{self.color}"]
+            tags=tags,
         )

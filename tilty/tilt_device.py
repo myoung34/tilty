@@ -44,6 +44,7 @@ class TiltDevice:  # pylint: disable=too-few-public-methods
                     'color': constants.TILT_DEVICES[beacon['uuid']],
                     'gravity': float(beacon['minor']/1000),
                     'temp': beacon['major'],
+                    'mac': beacon['mac'],
                     'timestamp': datetime.now().isoformat(),
                 }
 

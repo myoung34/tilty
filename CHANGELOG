@@ -1,0 +1,5 @@
+## 0.4.0
+
+IMPROVEMENTS:
+
+ * Added support for mac address additions (optional) to emitters: https://github.com/myoung34/tilty/pull/17
