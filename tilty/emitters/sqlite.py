@@ -40,3 +40,4 @@ class SQLite:  # pylint: disable=too-few-public-methods
             "insert into data (gravity,temp,color,mac) values (?,?,?,?)",
             (self.gravity, self.temp, self.color, self.mac)
         )
+        self.conn.commit()
