@@ -4,6 +4,10 @@ class MockConfigParser:
         self.section = section
 
     def __getitem__(self, key):
+        if self.section == 'sqlite':
+            return {
+                'file': '/foo.sqlite',
+            }
         if self.section == 'webhook':
             return {
                 'url': 'http://www.google.com',

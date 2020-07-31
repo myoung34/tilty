@@ -15,6 +15,32 @@ def test_scan_for_tilt_data(
     bt_events.assert_called()
 
 
+@mock.patch('tilty.emitters.sqlite.SQLite')
+def test_scan_for_tilt_data_parse_sqlite(
+    mock_sqlite,
+):
+    config = MockConfigParser('sqlite')
+    tilty.emit(
+        config,
+        {
+            'color': 'black',
+            'gravity': 1,
+            'temp': 32,
+            'mac': '00:0a:95:9d:68:16',
+        }
+    )
+    assert mock_sqlite.mock_calls == [
+        mock.call(config={
+            'file': '/foo.sqlite',
+            'gravity': 1,
+            'temp': 32,
+            'mac': '00:0a:95:9d:68:16',
+            'color': 'black'
+        }),
+        mock.call().emit(),
+    ]
+
+
 @mock.patch('tilty.emitters.webhook.Webhook')
 def test_scan_for_tilt_data_parse_webhook(
     mock_webhook,
