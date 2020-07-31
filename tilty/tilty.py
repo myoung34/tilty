@@ -4,7 +4,7 @@ import json
 
 from jinja2 import Template
 
-from tilty.emitters import datadog, influxdb, webhook
+from tilty.emitters import datadog, influxdb, sqlite, webhook
 
 
 def emit(config, tilt_data):
@@ -15,6 +15,21 @@ def emit(config, tilt_data):
     """
     if tilt_data is None:
         return
+
+    # <start config sample>
+    # [sqlite]
+    # file = /etc/tilty/tilt.sqlite
+    if config.has_section('sqlite'):
+        _config = {
+            'file': config['sqlite']['file'],
+            'gravity': tilt_data['gravity'],
+            'temp': tilt_data['temp'],
+            'mac': tilt_data['mac'],
+            'color': tilt_data['color'],
+        }
+        _sqlite = sqlite.SQLite(config=_config)
+        _sqlite.emit()
+
     # <start config sample>
     # [webhook]
     # url = http://www.foo.com

@@ -24,6 +24,7 @@ The Tilt supports writing to a google doc which you could use with something lik
 * Webhooks
 * InfluxDB
 * Datadog (dogstatsd)
+* SQLite
 
 ## Usage ##
 
@@ -33,6 +34,10 @@ The Tilt supports writing to a google doc which you could use with something lik
 $ cat <<EOF >config.ini
 [general]
 sleep_interval = 1
+
+# SQLite example
+[sqlite]
+file = /etc/tilty/tilt.sqlite
 
 # Generic application/json example
 [webhook]
