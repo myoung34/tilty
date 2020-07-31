@@ -1,3 +1,9 @@
+## 0.5.0
+
+IMPROVEMENTS:
+
+ * Added support for SQLite emitter: https://github.com/myoung34/tilty/pull/18
+
 ## 0.4.0
 
 IMPROVEMENTS:
