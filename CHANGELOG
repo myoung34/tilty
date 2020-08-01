@@ -1,3 +1,18 @@
+## 0.5.2
+
+IMPROVEMENTS:
+
+ * Hotfix: fix dockerfile, something in python-alpine is broken on HCI
+
+
+## 0.5.1
+
+IMPROVEMENTS:
+
+ * Hotfix: commit sqlite transactions:
+ https://github.com/myoung34/tilty/pull/19
+
+
 ## 0.5.0
 
 IMPROVEMENTS:

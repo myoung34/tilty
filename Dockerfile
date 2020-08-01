@@ -1,11 +1,12 @@
-FROM python:3.6-alpine
+FROM alpine:3.12.0
+
 LABEL maintainer="3vilpenguin@gmail.com"
 
-RUN apk add -U --no-cache alpine-sdk bluez-dev
+RUN apk add -U --no-cache python3 python3-dev alpine-sdk bluez-dev py3-setuptools
 
 COPY . /src
 WORKDIR /src
-RUN python setup.py install
+RUN python3 setup.py install
 
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
