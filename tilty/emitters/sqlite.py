@@ -15,10 +15,9 @@ class SQLite:  # pylint: disable=too-few-public-methods
         Args:
             config: (dict) represents the configuration for the emitter
         """
-        self.color = config['color']
-        self.gravity = config['gravity']
-        self.temp = config['temp']
-        self.mac = config['mac']
+        # <start config sample>
+        # [sqlite]
+        # file = /etc/tilty/tilt.sqlite
         self.conn = sqlite3.connect(config['file'])
         self.conn.execute('''
             CREATE TABLE IF NOT EXISTS data(
@@ -30,14 +29,20 @@ class SQLite:  # pylint: disable=too-few-public-methods
               timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL)
         ''')
 
-    def emit(self, **kwargs):  # pylint: disable=no-self-use,unused-argument
+    def emit(self, tilt_data):
         """ Initializer
 
         Args:
+            tilt_data (dict): data returned from valid tilt device scan
         """
         LOGGER.info('[sqlite] creating row')
         self.conn.execute(
             "insert into data (gravity,temp,color,mac) values (?,?,?,?)",
-            (self.gravity, self.temp, self.color, self.mac)
+            (
+                tilt_data['gravity'],
+                tilt_data['temp'],
+                tilt_data['color'],
+                tilt_data['mac']
+            )
         )
         self.conn.commit()

@@ -17,36 +17,36 @@ class Datadog:  # pylint: disable=too-few-public-methods
         Args:
             config: (dict) represents the configuration for the emitter
         """
-        self.temperature = config['temperature']
-        self.gravity = config['gravity']
-        self.color = config['color']
-        self.mac = config['mac']
+        # [datadog]
+        # host = 'host'
+        # port = 'port'
         options = {
             'statsd_host': config['host'],
             'statsd_port': safe_get_key(config, 'port', 8125),
         }
         initialize(**options)
 
-    def emit(self, **kwargs):  # pylint: disable=no-self-use,unused-argument
+    def emit(self, tilt_data):  # pylint:disable=no-self-use
         """ Initializer
 
         Args:
+            tilt_data (dict): data returned from valid tilt device scan
         """
         LOGGER.info('[datadog] posting temperature data')
-        tags = [f"color:{self.color}"]
-        if self.mac:
+        tags = [f"color:{tilt_data['color']}"]
+        if tilt_data['mac']:
             tags = [
-                f"color:{self.color}",
-                f"mac:{self.mac}",
+                f"color:{tilt_data['color']}",
+                f"mac:{tilt_data['mac']}",
             ]
         statsd.gauge(
             'tilty.temperature',
-            self.temperature,
+            tilt_data['temperature'],
             tags=tags,
         )
         LOGGER.info('[datadog] posting gravity data')
         statsd.gauge(
             'tilty.gravity',
-            self.gravity,
+            tilt_data['gravity'],
             tags=tags,
         )

@@ -29,5 +29,8 @@ class MockConfigParser:
             }
         return None
 
+    def sections(self, *args, **kwargs):
+        return ['general']
+
     def has_section(self, *args, **kwargs):
         return self.section in args

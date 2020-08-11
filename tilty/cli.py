@@ -2,7 +2,6 @@
 """ Main Click methods """
 
 import configparser
-import logging
 import signal
 import sys
 import threading
@@ -12,10 +11,7 @@ from time import sleep
 import click
 
 from tilty import tilt_device
-from tilty.tilty import emit
-
-LOGGER = logging.getLogger()
-LOGGER.setLevel(logging.INFO)
+from tilty.tilty import emit, parse_config
 
 CONFIG = configparser.ConfigParser()
 
@@ -32,7 +28,7 @@ def scan_and_emit(device, config):
     tilt_data = device.scan_for_tilt_data()
     if tilt_data:
         click.echo(tilt_data)
-        emit(config=config, tilt_data=tilt_data)
+        emit(emitters=parse_config(config), tilt_data=tilt_data)
 
 
 def scan_and_emit_thread(device, config, keep_running=False):
