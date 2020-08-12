@@ -2,6 +2,7 @@
 """ Main Click methods """
 
 import configparser
+import pathlib
 import signal
 import sys
 import threading
@@ -11,6 +12,7 @@ from time import sleep
 import click
 
 from tilty import tilt_device
+from tilty.exceptions import ConfigurationFileNotFoundException
 from tilty.tilty import emit, parse_config
 
 CONFIG = configparser.ConfigParser()
@@ -59,6 +61,10 @@ def run(
 ):
     """ main cli entrypoint
     """
+    file = pathlib.Path(config_file)
+    if not file.exists():
+        raise ConfigurationFileNotFoundException()
+
     CONFIG.read(config_file)
     click.echo('Scanning for Tilt data...')
     device = tilt_device.TiltDevice()

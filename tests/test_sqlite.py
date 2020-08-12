@@ -4,6 +4,11 @@ from unittest import mock
 from tilty.emitters import sqlite
 
 
+def test_sqlite_type(
+):
+    assert sqlite.__type__() == 'SQLite'
+
+
 @mock.patch('tilty.emitters.sqlite.sqlite3')
 def test_sqlite(
     mock_sqlite_client,

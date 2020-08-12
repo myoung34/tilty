@@ -8,7 +8,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = ">=3.6"
 click = "^7.0"
-pybluez = { version = "^0.22.0", platform = 'Linux' }
+pybluez = "^0.22.0"
 requests = "^2.22"
 jinja2 = "^2.11.1"
 influxdb = "^5.2.3"

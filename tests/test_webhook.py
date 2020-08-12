@@ -6,6 +6,11 @@ import pytest
 from tilty.emitters import webhook
 
 
+def test_webhook_type(
+):
+    assert webhook.__type__() == 'Webhook'
+
+
 @mock.patch('tilty.emitters.webhook.METHODS')
 def test_webhook_get(
     mock_requests,

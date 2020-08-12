@@ -9,6 +9,10 @@ from tilty.common import safe_get_key
 LOGGER = logging.getLogger()
 
 
+def __type__():
+    return 'Datadog'
+
+
 class Datadog:  # pylint: disable=too-few-public-methods
     """ Class to represent the actual device """
     def __init__(self, config):

@@ -11,6 +11,10 @@ METHODS = {
 }
 
 
+def __type__():
+    return 'Webhook'
+
+
 class Webhook:  # pylint: disable=too-few-public-methods
     """ Class to represent the actual device """
     def __init__(self, config):

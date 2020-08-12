@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 class MockConfigParser:
-    def __init__(self, section):
+    def __init__(
+        self,
+        section,
+        return_empty=False,
+        include_extra_section=False
+    ):
         self.section = section
+        self.include_extra_section = include_extra_section
+        self.return_empty = return_empty
 
     def __getitem__(self, key):
         if self.section == 'sqlite':
@@ -27,9 +34,13 @@ class MockConfigParser:
                 'host': 'http://api.datadog.com',
                 'port': '8120',
             }
-        return None
+        return {}
 
     def sections(self, *args, **kwargs):
+        if self.include_extra_section:
+            return ['general', 'fake']
+        if self.return_empty:
+            return []
         return ['general']
 
     def has_section(self, *args, **kwargs):

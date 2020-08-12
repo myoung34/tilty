@@ -4,6 +4,11 @@ from unittest import mock
 from tilty.emitters import influxdb
 
 
+def test_influxdb_type(
+):
+    assert influxdb.__type__() == 'InfluxDB'
+
+
 @mock.patch('tilty.emitters.influxdb.InfluxDBClient')
 def test_influxdb(
     mock_influx_client,

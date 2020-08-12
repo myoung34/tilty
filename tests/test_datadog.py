@@ -4,6 +4,11 @@ from unittest import mock
 from tilty.emitters import datadog
 
 
+def test_datadog_type(
+):
+    assert datadog.__type__() == 'Datadog'
+
+
 @mock.patch('tilty.emitters.datadog.statsd')
 @mock.patch('tilty.emitters.datadog.initialize')
 def test_datadog(

@@ -6,6 +6,10 @@ import sqlite3
 LOGGER = logging.getLogger()
 
 
+def __type__():
+    return 'SQLite'
+
+
 class SQLite:  # pylint: disable=too-few-public-methods
     """ SQLite wrapper class """
 

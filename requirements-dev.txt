@@ -32,7 +32,7 @@ packaging==20.4
 pbr==5.4.5
 pluggy==0.13.1
 py==1.9.0
-pybluez==0.22; platform_system == "Linux"
+pybluez==0.22
 pycodestyle==2.6.0
 pyflakes==2.2.0
 pylint==2.5.3

@@ -1,18 +1,34 @@
 # -*- coding: utf-8 -*-
 from unittest import mock
+import pytest
 
 from mock_config_parser import MockConfigParser
 from mock_config_parser_mac import MockConfigParserMac
 from tilty import tilt_device, tilty
+from tilty.exceptions import ConfigurationFileEmptyException
 from tilty.emitters import datadog, influxdb, sqlite, webhook
 from tilty.tilty import parse_config
 
 
 def test_parse_config():
-
     config = MockConfigParser('sqlite')
     emitters = parse_config(config)
     assert not emitters
+
+
+def test_parse_config_empty():
+    with pytest.raises(ConfigurationFileEmptyException):
+        config = MockConfigParser('', return_empty=True)
+        emitters = parse_config(config)
+        assert not emitters
+
+
+def test_parse_config_invalid_emitter():
+    with pytest.raises(ModuleNotFoundError):
+        config = MockConfigParser('', include_extra_section=True)
+        emitters = parse_config(config)
+        assert not emitters
+
 
 
 @mock.patch('tilty.blescan.get_events', return_value=[{'uuid': 'foo', 'major': 2, 'minor': 1}]) # noqa
