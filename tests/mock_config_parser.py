@@ -4,11 +4,13 @@ class MockConfigParser:
         self,
         section,
         return_empty=False,
-        include_extra_section=False
+        include_extra_section=False,
+        include_invalid_section=False,
     ):
         self.section = section
         self.include_extra_section = include_extra_section
         self.return_empty = return_empty
+        self.include_invalid_section = include_invalid_section
 
     def __getitem__(self, key):
         if self.section == 'sqlite':
@@ -38,6 +40,8 @@ class MockConfigParser:
 
     def sections(self, *args, **kwargs):
         if self.include_extra_section:
+            return ['general', self.section]
+        if self.include_invalid_section:
             return ['general', 'fake']
         if self.return_empty:
             return []

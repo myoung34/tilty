@@ -1,19 +1,24 @@
 # -*- coding: utf-8 -*-
 from unittest import mock
+
 import pytest
 
 from mock_config_parser import MockConfigParser
 from mock_config_parser_mac import MockConfigParserMac
 from tilty import tilt_device, tilty
-from tilty.exceptions import ConfigurationFileEmptyException
 from tilty.emitters import datadog, influxdb, sqlite, webhook
+from tilty.exceptions import ConfigurationFileEmptyException
 from tilty.tilty import parse_config
 
 
-def test_parse_config():
-    config = MockConfigParser('sqlite')
+@mock.patch('tilty.emitters.sqlite.sqlite3')
+def test_parse_config(
+    mock_sqlite,
+):
+    config = MockConfigParser('sqlite', include_extra_section=True)
     emitters = parse_config(config)
-    assert not emitters
+    assert len(emitters) == 1
+    assert str(type(emitters[0])) == "<class 'tilty.emitters.sqlite.SQLite'>"
 
 
 def test_parse_config_empty():

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import pytest
 from unittest import mock
 
+import pytest
 from click.testing import CliRunner
 
 from tilty import cli
@@ -39,6 +39,7 @@ def test_cli_invalid_params():
     assert result.output == 'Usage: run [OPTIONS]\nTry \'run --help\' for help.\n\nError: no such option: --foo\n' # noqa
 
 
+@mock.patch('tilty.cli.parse_config', return_value={})
 @mock.patch('tilty.cli.pathlib.Path.exists', return_value=True)
 @mock.patch('tilty.blescan.get_events', return_value=[{'uuid': 'foo', 'major': 78, 'minor': 1833}]) # noqa
 @mock.patch('tilty.blescan.hci_le_set_scan_parameters') # noqa
@@ -48,13 +49,15 @@ def test_cli_no_params_no_valid_data(
     bt_set_scan,
     bt_events,
     mock_pathlib,
+    mock_parse_config,
 ):
     runner = CliRunner()
     result = runner.invoke(cli.run, [])
     assert result.exit_code == 0
-    assert result.output == 'Scanning for Tilt data...\n' # noqa
+    assert result.output == 'Scanning for Tilt data...\n'
 
 
+@mock.patch('tilty.cli.parse_config', return_value={})
 @mock.patch('tilty.cli.pathlib.Path.exists', return_value=True)
 @mock.patch('tilty.blescan.get_events', return_value=[]) # noqa
 @mock.patch('tilty.blescan.hci_le_set_scan_parameters') # noqa
@@ -64,13 +67,15 @@ def test_cli_no_params_no_data(
     bt_set_scan,
     bt_events,
     mock_pathlib,
+    mock_parse_config,
 ):
     runner = CliRunner()
     result = runner.invoke(cli.run, [])
     assert result.exit_code == 0
-    assert result.output == 'Scanning for Tilt data...\n' # noqa
+    assert result.output == 'Scanning for Tilt data...\n'
 
 
+@mock.patch('tilty.cli.parse_config', return_value={})
 @mock.patch('tilty.cli.pathlib.Path.exists', return_value=True)
 @mock.patch('tilty.blescan.get_events', return_value=[{'mac': '00:0a:95:9d:68:16', 'uuid': 'a495bb30c5b14b44b5121370f02d74de', 'major': 60, 'minor': 1053}]) # noqa
 @mock.patch('tilty.blescan.hci_le_set_scan_parameters') # noqa
@@ -80,6 +85,7 @@ def test_cli_no_params_success(
     bt_set_scan,
     bt_events,
     mock_pathlib,
+    mock_parse_config,
 ):
     runner = CliRunner()
     result = runner.invoke(cli.run, [])

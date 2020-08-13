@@ -18,7 +18,7 @@ def parse_config(config):
     config (dict): configuration file loaded from disk
     """
     emitters = []
-    if not config.sections():
+    if not [section for section in config.sections() if section != 'general']:
         raise ConfigurationFileEmptyException
     for emitter in config.sections():
         if emitter == 'general':
