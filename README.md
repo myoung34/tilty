@@ -33,7 +33,8 @@ The Tilt supports writing to a google doc which you could use with something lik
 ```
 $ cat <<EOF >config.ini
 [general]
-sleep_interval = 1
+sleep_interval = 2 # defaults to 1
+logging_level = DEBUG # defaults to INFO
 
 # SQLite example
 [sqlite]
