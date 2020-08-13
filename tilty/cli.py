@@ -3,6 +3,7 @@
 
 import configparser
 import logging
+import pathlib
 import signal
 import sys
 import threading
@@ -12,10 +13,8 @@ from time import sleep
 import click
 
 from tilty import tilt_device
-from tilty.tilty import emit
-
-LOGGER = logging.getLogger()
-LOGGER.setLevel(logging.INFO)
+from tilty.exceptions import ConfigurationFileNotFoundException
+from tilty.tilty import LOGGER, emit, parse_config
 
 CONFIG = configparser.ConfigParser()
 
@@ -26,22 +25,31 @@ def terminate_process(device, signal_number, frame):  # noqa  # pylint: disable=
     sys.exit()
 
 
-def scan_and_emit(device, config):
+def scan_and_emit(device, emitters):
     """ method that does the needful
     """
+    LOGGER.debug('Starting device scan')
     tilt_data = device.scan_for_tilt_data()
     if tilt_data:
+        LOGGER.debug('tilt data retrieved')
         click.echo(tilt_data)
-        emit(config=config, tilt_data=tilt_data)
+        emit(emitters=emitters, tilt_data=tilt_data)
+    else:
+        LOGGER.debug('No tilt data')
 
 
 def scan_and_emit_thread(device, config, keep_running=False):
     """ method that calls the needful
     """
-    scan_and_emit(device, config)
+    emitters = parse_config(config)
+    click.echo('Scanning for Tilt data...')
+    scan_and_emit(device, emitters)
     while keep_running:
-        scan_and_emit(device, config)
-        sleep(int(config['general']['sleep_interval']))
+        LOGGER.debug('Scanning for Tilt data...')
+        scan_and_emit(device, emitters)
+        sleep_time = int(CONFIG['general'].get('sleep_interval', 1))
+        LOGGER.debug('Sleeping for %s....', sleep_time)
+        sleep(sleep_time)
 
 
 @click.command()
@@ -63,8 +71,19 @@ def run(
 ):
     """ main cli entrypoint
     """
+    file = pathlib.Path(config_file)
+    if not file.exists():
+        raise ConfigurationFileNotFoundException()
+
     CONFIG.read(config_file)
-    click.echo('Scanning for Tilt data...')
+
+    logging_level = 'INFO'
+    try:
+        logging_level = CONFIG['general'].get('logging_level', 'INFO')
+    except KeyError:
+        pass
+    LOGGER.setLevel(logging.getLevelName(logging_level))
+
     device = tilt_device.TiltDevice()
     signal.signal(signal.SIGINT, partial(terminate_process, device))
     device.start()

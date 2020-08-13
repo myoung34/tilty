@@ -6,6 +6,11 @@ import pytest
 from tilty.emitters import webhook
 
 
+def test_webhook_type(
+):
+    assert webhook.__type__() == 'Webhook'
+
+
 @mock.patch('tilty.emitters.webhook.METHODS')
 def test_webhook_get(
     mock_requests,
@@ -13,17 +18,21 @@ def test_webhook_get(
     config = {
         'url': 'http://www.google.com',
         'headers': {'Content-Type': 'application/json'},
-        'payload': {'b': 'b1'},
+        'payload_template': '{"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}}',  # noqa
         'method': 'GET',
     }
-    webhook.Webhook(config=config).emit()
+    webhook.Webhook(config=config).emit({
+        'color': 'black',
+        'gravity': 1,
+        'temp': 32,
+        'mac': '00:0a:95:9d:68:16',
+        'timestamp': 155558888
+    })
     assert mock_requests.mock_calls == [
         mock.call.get('GET'),
         mock.call.get()(
-            json={'b': 'b1'},
             headers={'Content-Type': 'application/json'},
-            url='http://www.google.com'
-        )
+            json={'color': 'black', 'gravity': 1, 'temp': 32}, url='http://www.google.com')  # noqa
     ]
 
 
@@ -34,15 +43,21 @@ def test_webhook_post_json(
     config = {
         'url': 'http://www.google.com',
         'headers': {'Content-Type': 'application/json'},
-        'payload': {'b': 'b1'},
+        'payload_template': '{"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}}',  # noqa
         'method': 'POST',
     }
-    webhook.Webhook(config=config).emit()
+    webhook.Webhook(config=config).emit({
+        'color': 'black',
+        'gravity': 1,
+        'temp': 32,
+        'mac': '00:0a:95:9d:68:16',
+        'timestamp': 155558888
+    })
     assert mock_requests.mock_calls == [
         mock.call.get('POST'),
         mock.call.get()(
-            json={'b': 'b1'},
             headers={'Content-Type': 'application/json'},
+            json={'color': 'black', 'gravity': 1, 'temp': 32},
             url='http://www.google.com'
         )
     ]
@@ -55,14 +70,20 @@ def test_webhook_post_data(
     config = {
         'url': 'http://www.google.com',
         'headers': {'Content-Type': 'text/plain'},
-        'payload': 'foo',
+        'payload_template': '{"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}',  # noqa
         'method': 'POST',
     }
-    webhook.Webhook(config=config).emit()
+    webhook.Webhook(config=config).emit({
+        'color': 'black',
+        'gravity': 1,
+        'temp': 32,
+        'mac': '00:0a:95:9d:68:16',
+        'timestamp': 155558888
+    })
     assert mock_requests.mock_calls == [
         mock.call.get('POST'),
         mock.call.get()(
-            data='foo',
+            data={'color': 'black', 'gravity': 1, 'temp': 32, 'timestamp': '155558888'},  # noqa
             headers={'Content-Type': 'text/plain'},
             url='http://www.google.com'
         )
@@ -73,7 +94,14 @@ def test_webhook_invalid_method():
     config = {
         'url': 'http://www.google.com',
         'headers': {'Content-Type': 'application/json'},
-        'payload': {'b': 'b1'}, 'method': 'bad'
+        'payload_template': '{"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}',  # noqa
+        'method': 'FOO',
     }
     with pytest.raises(TypeError):
-        webhook.Webhook(config=config).emit()
+        webhook.Webhook(config=config).emit({
+            'color': 'black',
+            'gravity': 1,
+            'temp': 32,
+            'mac': '00:0a:95:9d:68:16',
+            'timestamp': 155558888
+        })
