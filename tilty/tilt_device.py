@@ -11,7 +11,7 @@ from tilty.tilty import LOGGER
 
 class TiltDevice:  # pylint: disable=too-few-public-methods
     """ Class to represent the actual device """
-    def __init__(self, device_id=0):
+    def __init__(self, device_id: int = 0) -> None:
         """ Initializer
 
         Args:
@@ -21,7 +21,7 @@ class TiltDevice:  # pylint: disable=too-few-public-methods
         LOGGER.debug('Opening device socket')
         self.sock = bluez.hci_open_dev(device_id)
 
-    def start(self):
+    def start(self) -> None:
         """ Start scanning and device
 
         Args:
@@ -30,7 +30,7 @@ class TiltDevice:  # pylint: disable=too-few-public-methods
         blescan.hci_le_set_scan_parameters(self.sock)
         blescan.hci_enable_le_scan(self.sock)
 
-    def stop(self):
+    def stop(self) -> None:
         """ Stop scanning and device
 
         Args:
@@ -38,10 +38,10 @@ class TiltDevice:  # pylint: disable=too-few-public-methods
         LOGGER.debug('Stopping device socket')
         blescan.hci_disable_le_scan(self.sock)
 
-    def scan_for_tilt_data(self):
+    def scan_for_tilt_data(self) -> dict:
         """ scan for tilt and return data if found """
 
-        data = None
+        data = {}
         LOGGER.debug('Looking for events')
         for beacon in blescan.get_events(self.sock):
             if beacon['uuid'] in constants.TILT_DEVICES:

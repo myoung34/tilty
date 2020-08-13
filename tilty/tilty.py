@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """ Class to encapsulate all the emitter logic """
+import configparser
 import logging
 import sys
+from typing import Any, List
 
 from tilty.exceptions import ConfigurationFileEmptyException
 
@@ -12,10 +14,11 @@ handler.setLevel(logging.DEBUG)
 LOGGER.addHandler(handler)
 
 
-def parse_config(config):
+def parse_config(config: configparser.ConfigParser) -> List[dict]:
     """ Parse the config
 
-    config (dict): configuration file loaded from disk
+    Args:
+        config (dict): configuration file loaded from disk
     """
     emitters = []
     if not [section for section in config.sections() if section != 'general']:
@@ -32,7 +35,7 @@ def parse_config(config):
             f"{__name__.rsplit('.')[0]}.emitters.{emitter}",
             fromlist=['']
         )
-        _config = {}
+        _config: dict = {}
         for config_key, config_val in config[emitter].items():
             _config.setdefault(config_key, config_val)
 
@@ -43,13 +46,14 @@ def parse_config(config):
     return emitters
 
 
-def emit(emitters, tilt_data):
+def emit(emitters: List[Any], tilt_data: dict) -> None:
     """ Find and call emitters from config
 
-    general_config (dict): general section from the configuration file
-                           loaded from disk
-    emitters (obj[]): dynamically loaded emitters from parse_config()
-    tilt_data (dict): data returned from valid tilt device scan
+    Args:
+        general_config (dict): general section from the configuration file
+                               loaded from disk
+        emitters (obj[]): dynamically loaded emitters from parse_config()
+        tilt_data (dict): data returned from valid tilt device scan
     """
     for emitter in emitters:
         emitter.emit(tilt_data=tilt_data)

@@ -9,6 +9,7 @@ import sys
 import threading
 from functools import partial
 from time import sleep
+from typing import List
 
 import click
 
@@ -19,14 +20,29 @@ from tilty.tilty import LOGGER, emit, parse_config
 CONFIG = configparser.ConfigParser()
 
 
-def terminate_process(device, signal_number, frame):  # noqa  # pylint: disable=unused-argument
-    """ handle SIGTERM """
+def terminate_process(
+    device: tilt_device.TiltDevice,
+    signal_number: int,
+    frame: None
+):  # noqa  # pylint: disable=unused-argument
+    """ handle SIGTERM
+
+    Args:
+        device (TiltDevice): The bluetooth device to operate on.
+        signal_number (int): The signal to operate on
+        frame (TODO): The TODO
+
+    """
     device.stop()
     sys.exit()
 
 
-def scan_and_emit(device, emitters):
-    """ method that does the needful
+def scan_and_emit(device: tilt_device.TiltDevice, emitters: List[dict]):
+    """ Scans and emits the data via the loaded emitters.
+
+    Args:
+        device (TiltDevice): The bluetooth device to operate on.
+        emitters ([dict]): The emitters to use.
     """
     LOGGER.debug('Starting device scan')
     tilt_data = device.scan_for_tilt_data()
@@ -38,8 +54,17 @@ def scan_and_emit(device, emitters):
         LOGGER.debug('No tilt data')
 
 
-def scan_and_emit_thread(device, config, keep_running=False):
+def scan_and_emit_thread(
+    device: tilt_device.TiltDevice,
+    config: configparser.ConfigParser,
+    keep_running: bool = False
+) -> None:
     """ method that calls the needful
+
+    Args:
+        device (TiltDevice): The bluetooth device to operate on.
+        config (dict): The parsed configuration
+        keep_running (bool): Whether or not to keep running. Default: False
     """
     emitters = parse_config(config)
     click.echo('Scanning for Tilt data...')
@@ -47,7 +72,7 @@ def scan_and_emit_thread(device, config, keep_running=False):
     while keep_running:
         LOGGER.debug('Scanning for Tilt data...')
         scan_and_emit(device, emitters)
-        sleep_time = int(CONFIG['general'].get('sleep_interval', 1))
+        sleep_time = int(CONFIG['general'].get('sleep_interval', '1'))
         LOGGER.debug('Sleeping for %s....', sleep_time)
         sleep(sleep_time)
 
@@ -66,10 +91,15 @@ def scan_and_emit_thread(device, config, keep_running=False):
     help="configuration file path",
 )
 def run(
-    keep_running,
-    config_file='config.ini',
+    keep_running: bool,
+    config_file: str = 'config.ini',
 ):
-    """ main cli entrypoint
+    """
+    main cli entrypoint
+
+    Args:
+        keep_running (bool): Whether or not to keep running. Default: False
+        config_file (str): The configuration file location to load.
     """
     file = pathlib.Path(config_file)
     if not file.exists():

@@ -6,14 +6,14 @@ import sqlite3
 LOGGER = logging.getLogger()
 
 
-def __type__():
+def __type__() -> str:
     return 'SQLite'
 
 
 class SQLite:  # pylint: disable=too-few-public-methods
     """ SQLite wrapper class """
 
-    def __init__(self, config):
+    def __init__(self, config: dict) -> None:
         """ Initializer
 
         Args:
@@ -33,7 +33,7 @@ class SQLite:  # pylint: disable=too-few-public-methods
               timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL)
         ''')
 
-    def emit(self, tilt_data):
+    def emit(self, tilt_data: dict) -> None:
         """ Initializer
 
         Args:

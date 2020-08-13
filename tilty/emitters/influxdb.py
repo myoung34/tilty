@@ -11,13 +11,13 @@ from tilty.common import safe_get_key
 LOGGER = logging.getLogger()
 
 
-def __type__():
+def __type__() -> str:
     return 'InfluxDB'
 
 
 class InfluxDB:  # pylint: disable=too-few-public-methods
     """ Class to represent the actual device """
-    def __init__(self, config):
+    def __init__(self, config: dict) -> None:
         """ Initializer
 
         Args:
@@ -39,7 +39,7 @@ class InfluxDB:  # pylint: disable=too-few-public-methods
             config['database']
         )
 
-    def emit(self, tilt_data):
+    def emit(self, tilt_data: dict) -> None:
         """ Initializer
 
         Args:
