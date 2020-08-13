@@ -9,13 +9,13 @@ from tilty.common import safe_get_key
 LOGGER = logging.getLogger()
 
 
-def __type__():
+def __type__() -> str:
     return 'Datadog'
 
 
 class Datadog:  # pylint: disable=too-few-public-methods
     """ Class to represent the actual device """
-    def __init__(self, config):
+    def __init__(self, config: dict) -> None:
         """ Initializer
 
         Args:
@@ -30,7 +30,7 @@ class Datadog:  # pylint: disable=too-few-public-methods
         }
         initialize(**options)
 
-    def emit(self, tilt_data):  # pylint:disable=no-self-use
+    def emit(self, tilt_data: dict) -> None:  # pylint:disable=no-self-use
         """ Initializer
 
         Args:

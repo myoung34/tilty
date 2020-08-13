@@ -97,7 +97,7 @@ def test_webhook_invalid_method():
         'payload_template': '{"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}',  # noqa
         'method': 'FOO',
     }
-    with pytest.raises(TypeError):
+    with pytest.raises(KeyError):
         webhook.Webhook(config=config).emit({
             'color': 'black',
             'gravity': 1,
