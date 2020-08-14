@@ -21,6 +21,7 @@ The Tilt supports writing to a google doc which you could use with something lik
 
 ## Supported Emitters ##
 
+* stdout
 * Webhooks
 * InfluxDB
 * Datadog (dogstatsd)
@@ -35,6 +36,9 @@ $ cat <<EOF >config.ini
 [general]
 sleep_interval = 2 # defaults to 1
 logging_level = DEBUG # defaults to INFO
+
+# stdout example
+[stdout]
 
 # SQLite example
 [sqlite]
