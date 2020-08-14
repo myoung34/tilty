@@ -22,6 +22,10 @@ setup(
         'Jinja2',
         'pybluez',
         'requests',
+        'google-api-python-client',
+        'google-auth-httplib2',
+        'google-auth-oauthlib',
+        'oauth2client',
     ],
     entry_points={
         'console_scripts': [
