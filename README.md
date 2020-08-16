@@ -26,6 +26,7 @@ The Tilt supports writing to a google doc which you could use with something lik
 * InfluxDB
 * Datadog (dogstatsd)
 * SQLite
+* Google Sheets (experimental/advanced)
 
 ## Usage ##
 
@@ -39,6 +40,13 @@ logging_level = DEBUG # defaults to INFO
 
 # stdout example
 [stdout]
+
+[google]
+# This is advanced. TODO: write up how to provide an access/refresh token
+refresh_token = 11111111111111111111111111
+client_id = 111111-1111.apps.googleusercontent.com
+client_secret = 1111111111111111
+spreadsheet_id = 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms
 
 # SQLite example
 [sqlite]

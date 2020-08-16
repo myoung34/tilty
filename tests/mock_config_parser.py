@@ -13,6 +13,13 @@ class MockConfigParser:
         self.include_invalid_section = include_invalid_section
 
     def __getitem__(self, key):
+        if self.section == 'google':
+            return {
+                "client_id": "1111111111",
+                "client_secret": "222222222",
+                "spreadsheet_id": "333333333333",
+                "refresh_token": "5555555555555555",
+            }
         if self.section == 'sqlite':
             return {
                 'file': '/foo.sqlite',
