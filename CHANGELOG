@@ -1,3 +1,19 @@
+## 0.5.3
+
+IMPROVEMENTS:
+
+ *  Add support for stdout emitter: https://github.com/myoung34/tilty/pull/23
+ *  Add Type annotations and basic mypy: https://github.com/myoung34/tilty/pull/22
+ *  Refactor logging and add 'logging_level' to [general] config section: https://github.com/myoung34/tilty/pull/21
+ *  Refactor to use dynamic loading and separate initialization from emit(): https://github.com/myoung34/tilty/pull/20
+
+FIXES:
+
+ *  Fix initialization, add custom exceptions
+ *  Fix poetry/makefile bootstrapping
+ *  Fix bandit
+
+
 ## 0.5.2
 
 IMPROVEMENTS:
