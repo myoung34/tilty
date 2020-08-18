@@ -13,7 +13,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     py_modules=['tilty', 'blescan'],
-    version='0.6.0',
+    version='0.6.1',
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Click',
@@ -22,6 +22,7 @@ setup(
         'Jinja2',
         'pybluez',
         'requests',
+        'urllib3>=1.24.2',
         'google-auth==1.20.1',
         'google-api-python-client==1.10.0',
         'google-auth-httplib2',

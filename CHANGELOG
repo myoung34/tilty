@@ -1,3 +1,10 @@
+## 0.6.1
+
+SECURITY:
+
+ * Bump urllib3 for CVE-2019-11324
+
+
 ## 0.6.0
 
 IMPROVEMENTS:
