@@ -23,6 +23,9 @@ The Tilt supports writing to a google doc which you could use with something lik
 
 * stdout
 * Webhooks
+  * Generic (Send to any endpoint with any type)
+  * Brewstat.us (Example below)
+  * BrewersFriend (Example below)
 * InfluxDB
 * Datadog (dogstatsd)
 * SQLite
@@ -56,9 +59,7 @@ file = /etc/tilty/tilt.sqlite
 [webhook]
 url = http://www.foo.com
 headers = {"Content-Type": "application/json"}
-payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
-# optional payload to include mac address
-# payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "mac": {{ mac }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
+payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "mac": {{ mac }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
 method = POST
 
 # Brewstat.us example
@@ -68,15 +69,19 @@ headers = {"Content-Type": "application/x-www-form-urlencoded; charset=utf-8"}
 payload_template = {"Color": "{{ color }}", "SG": {{ gravity }}, "Temp": {{ temp }}, "Timepoint": "{{ timestamp }}"}
 method = POST
 
+# Brewers Friend example
+[webhook]
+url = https://log.brewersfriend.com/stream/3009ec67c6d81276185c90824951bd32bg
+headers = {"Content-Type": "application/json"}
+payload_template = {"device_source": "Tilt","temp": {{ temp }}, "name": "{{ color }} ","temp_unit": "F","gravity": {{ gravity }},"gravity_unit": "G"}
+method = POST
+
 [influxdb]
 url = influxdb.corp.com
 port = 80
 database = tilty
-gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ gravity }}}}
-temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}
-# optional payload to include mac address
-# gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}", "mac": "{{ mac }}"}, "fields": {"value": {{ gravity }}}}
-# temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}", "mac": "{{ mac }}"}, "fields": {"value": {{ temp }}}}
+gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}", "mac": "{{ mac }}"}, "fields": {"value": {{ gravity }}}}
+temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}", "mac": "{{ mac }}"}, "fields": {"value": {{ temp }}}}
 # `% curl  -s -G 'http://influxdb.service.consul:8086/query?pretty=true' --data-urlencode "db=tilty" --data-urlencode 'q=SELECT "value", "mac", "color" FROM "autogen"."gravity"' | jq '.results[].series[].values[0]'`
 
 [datadog]

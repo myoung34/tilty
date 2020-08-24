@@ -17,7 +17,7 @@ def test_webhook_get(
 ):
     config = {
         'url': 'http://www.google.com',
-        'headers': {'Content-Type': 'application/json'},
+        'headers': '{"Content-Type": "application/json"}',
         'payload_template': '{"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}}',  # noqa
         'method': 'GET',
     }
@@ -43,7 +43,7 @@ def test_webhook_post_json(
 ):
     config = {
         'url': 'http://www.google.com',
-        'headers': {'Content-Type': 'application/json'},
+        'headers': '{"Content-Type": "application/json"}',
         'payload_template': '{"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}}',  # noqa
         'method': 'POST',
     }
@@ -71,7 +71,7 @@ def test_webhook_post_data(
 ):
     config = {
         'url': 'http://www.google.com',
-        'headers': {'Content-Type': 'text/plain'},
+        'headers': '{"Content-Type": "text/plain"}',
         'payload_template': '{"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}',  # noqa
         'method': 'POST',
     }

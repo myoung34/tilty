@@ -36,7 +36,7 @@ class Webhook:  # pylint: disable=too-few-public-methods
         self.method = METHODS.get(config['method'])
         if self.method is None:
             raise KeyError
-        self.headers: dict = config['headers']
+        self.headers: dict = json.loads(config['headers'])
         self.template: Template = Template(config['payload_template'])
 
     def emit(self, tilt_data: dict) -> requests.Response:
@@ -53,6 +53,7 @@ class Webhook:  # pylint: disable=too-few-public-methods
             temp=tilt_data['temp'],
             timestamp=tilt_data['timestamp'],
         ))
+
         LOGGER.debug(
             '[webhook] %s to %s with %s',
             self.method.__str__().split(' ')[1],
@@ -67,6 +68,7 @@ class Webhook:  # pylint: disable=too-few-public-methods
                 headers=self.headers,
                 json=payload,
             )
+        LOGGER.debug('[webhook] sending as non-json')
         return self.method(  # type: ignore
             url=self.url,
             headers=self.headers,
