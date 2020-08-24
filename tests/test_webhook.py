@@ -30,6 +30,7 @@ def test_webhook_get(
     })
     assert mock_requests.mock_calls == [
         mock.call.get('GET'),
+        mock.ANY,
         mock.call.get()(
             headers={'Content-Type': 'application/json'},
             json={'color': 'black', 'gravity': 1, 'temp': 32}, url='http://www.google.com')  # noqa
@@ -55,6 +56,7 @@ def test_webhook_post_json(
     })
     assert mock_requests.mock_calls == [
         mock.call.get('POST'),
+        mock.ANY,
         mock.call.get()(
             headers={'Content-Type': 'application/json'},
             json={'color': 'black', 'gravity': 1, 'temp': 32},
@@ -82,6 +84,7 @@ def test_webhook_post_data(
     })
     assert mock_requests.mock_calls == [
         mock.call.get('POST'),
+        mock.ANY,
         mock.call.get()(
             data={'color': 'black', 'gravity': 1, 'temp': 32, 'timestamp': '155558888'},  # noqa
             headers={'Content-Type': 'text/plain'},

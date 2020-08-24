@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 """ Webhook emitter """
 import json
+import logging
 from typing import Callable, Dict
 
 import requests
 from jinja2 import Template
+
+LOGGER = logging.getLogger()
 
 METHODS: Dict[str, Callable] = {
     "GET": requests.get,
@@ -50,8 +53,15 @@ class Webhook:  # pylint: disable=too-few-public-methods
             temp=tilt_data['temp'],
             timestamp=tilt_data['timestamp'],
         ))
+        LOGGER.debug(
+            '[webhook] %s to %s with %s',
+            self.method.__str__().split(' ')[1],
+            self.url,
+            payload,
+        )
 
         if self.headers and 'json' in self.headers.get('Content-Type', {}):
+            LOGGER.debug('[webhook] sending as json')
             return self.method(  # type: ignore
                 url=self.url,
                 headers=self.headers,
