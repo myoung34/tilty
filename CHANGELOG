@@ -1,3 +1,13 @@
+## 0.6.2
+
+IMPROVEMENTS:
+
+ * Add more logs to webhooks emitter
+
+BUG FIXES:
+
+ * Fix webhook not using headers as a dict
+
 ## 0.6.1
 
 SECURITY:
