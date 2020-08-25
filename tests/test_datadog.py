@@ -20,7 +20,7 @@ def test_datadog(
         'port': '8130',
     }
     tilt_data = {
-        'temperature': '55',
+        'temp': '55',
         'gravity': '1054',
         'color': 'black',
         'mac': '00:0a:95:9d:68:16',

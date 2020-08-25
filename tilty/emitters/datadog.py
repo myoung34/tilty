@@ -45,7 +45,7 @@ class Datadog:  # pylint: disable=too-few-public-methods
             ]
         statsd.gauge(
             'tilty.temperature',
-            tilt_data['temperature'],
+            tilt_data['temp'],
             tags=tags,
         )
         LOGGER.info('[datadog] posting gravity data')
