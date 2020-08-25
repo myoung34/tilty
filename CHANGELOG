@@ -1,3 +1,9 @@
+## 0.6.3
+
+BUG FIXES:
+
+ * Hotfix: fix keyerror in datadog emitter
+
 ## 0.6.2
 
 IMPROVEMENTS:
