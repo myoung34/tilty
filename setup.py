@@ -24,6 +24,7 @@ setup(
         'requests',
         'urllib3>=1.24.2',
         'google-auth==1.20.1',
+        'google-api-core==1.20.1',
         'google-api-python-client==1.10.0',
         'google-auth-httplib2',
         'google-auth-oauthlib',
