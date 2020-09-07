@@ -2,6 +2,7 @@
 from unittest import mock
 
 import pytest
+import datetime
 
 from tilty.emitters import webhook
 
@@ -108,3 +109,62 @@ def test_webhook_invalid_method():
             'mac': '00:0a:95:9d:68:16',
             'timestamp': 155558888
         })
+
+
+@mock.patch('tilty.emitters.webhook.METHODS')
+def test_webhook_delay_minutes(
+    mock_requests,
+):
+    config = {
+        'url': 'http://example.com',
+        'headers': '{"Content-Type": "application/json"}',
+        'delay_minutes': '3',
+        'payload_template': '{"color": "{{ color }}", "gravity": {{ gravity }}, "temp": {{ temp }}}',  # noqa
+        'method': 'GET',
+    }
+    wh = webhook.Webhook(config=config)
+    wh.emit({
+        'color': 'black',
+        'gravity': 1,
+        'temp': 32,
+        'mac': '00:0a:95:9d:68:16',
+        'timestamp': 155558888
+    })
+    wh.emit({
+        'color': 'black',
+        'gravity': 2,
+        'temp': 33,
+        'mac': '00:0a:95:9d:68:16',
+        'timestamp': 155558899
+    })
+    now = datetime.datetime.now(datetime.timezone.utc)
+    assert wh.delay_minutes == 3
+    assert wh.delay_until is not None
+    assert wh.delay_until >= now
+    assert mock_requests.mock_calls == [
+        mock.call.get('GET'),
+        mock.ANY,
+        mock.call.get()(
+            headers={'Content-Type': 'application/json'},
+            json={'color': 'black', 'gravity': 1, 'temp': 32}, url='http://example.com')  # noqa
+    ]
+
+    wh.delay_until = now - datetime.timedelta(minutes=1)
+    wh.emit({
+        'color': 'black',
+        'gravity': 2,
+        'temp': 33,
+        'mac': '00:0a:95:9d:68:16',
+        'timestamp': 155558899
+    })
+    assert mock_requests.mock_calls == [
+        mock.call.get('GET'),
+        mock.ANY,
+        mock.call.get()(
+            headers={'Content-Type': 'application/json'},
+            json={'color': 'black', 'gravity': 1, 'temp': 32}, url='http://example.com'),  # noqa
+        mock.ANY,
+        mock.call.get()(
+            headers={'Content-Type': 'application/json'},
+            json={'color': 'black', 'gravity': 2, 'temp': 33}, url='http://example.com')  # noqa
+    ]
