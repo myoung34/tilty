@@ -2,16 +2,11 @@
 """ Class to encapsulate all the emitter logic """
 import configparser
 import logging
-import sys
 from typing import Any, List
 
 from tilty.exceptions import ConfigurationFileEmptyException
 
-LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.DEBUG)
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-LOGGER.addHandler(handler)
+LOGGER = logging.getLogger()
 
 
 def parse_config(config: configparser.ConfigParser) -> List[dict]:

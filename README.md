@@ -40,6 +40,7 @@ $ cat <<EOF >config.ini
 [general]
 sleep_interval = 2 # defaults to 1
 logging_level = DEBUG # defaults to INFO
+logfile = /var/log/foo.log # defaults to stdout
 
 # stdout example
 [stdout]
