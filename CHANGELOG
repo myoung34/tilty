@@ -1,3 +1,10 @@
+## 0.6.4
+
+IMPROVEMENTS:
+
+ * add `delay_minutes` to webhook emitter: https://github.com/myoung34/tilty/pull/25
+ * add `logfile` to general section of config: https://github.com/myoung34/tilty/pull/27
+
 ## 0.6.3
 
 BUG FIXES:
