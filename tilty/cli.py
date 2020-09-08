@@ -48,7 +48,7 @@ def scan_and_emit(device: tilt_device.TiltDevice, emitters: List[dict]):
     tilt_data = device.scan_for_tilt_data()
     if tilt_data:
         LOGGER.debug('tilt data retrieved')
-        click.echo(tilt_data)
+        LOGGER.info(tilt_data)
         emit(emitters=emitters, tilt_data=tilt_data)
     else:
         LOGGER.debug('No tilt data')
@@ -107,12 +107,18 @@ def run(
 
     CONFIG.read(config_file)
 
+    handler = logging.StreamHandler(sys.stdout)
     logging_level = 'INFO'
     try:
         logging_level = CONFIG['general'].get('logging_level', 'INFO')
+        logfile = CONFIG['general'].get('logfile', None)
+        if logfile:
+            handler = logging.FileHandler(filename=logfile)
     except KeyError:
         pass
     LOGGER.setLevel(logging.getLevelName(logging_level))
+    handler.setLevel(logging_level)
+    LOGGER.addHandler(handler)
 
     device = tilt_device.TiltDevice()
     signal.signal(signal.SIGINT, partial(terminate_process, device))
