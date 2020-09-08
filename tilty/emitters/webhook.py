@@ -45,7 +45,7 @@ class Webhook:  # pylint: disable=too-few-public-methods
         self.template: Template = Template(config['payload_template'])
         self.delay_until: Union[datetime.datetime, None] = None
 
-    def emit(self, tilt_data: dict) -> requests.Response:
+    def emit(self, tilt_data: dict) -> None:  # pylint:disable=inconsistent-return-statements  # noqa
         """ Initializer
 
         Args:
@@ -83,8 +83,10 @@ class Webhook:  # pylint: disable=too-few-public-methods
                 json=payload,
             )
         LOGGER.debug('[webhook] sending as non-json')
-        return self.method(  # type: ignore
+        response = self.method(  # type: ignore
             url=self.url,
             headers=self.headers,
             data=payload,
         )
+        response.raise_for_status()
+        return

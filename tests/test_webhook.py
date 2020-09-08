@@ -90,7 +90,8 @@ def test_webhook_post_data(
             data={'color': 'black', 'gravity': 1, 'temp': 32, 'timestamp': '155558888'},  # noqa
             headers={'Content-Type': 'text/plain'},
             url='http://www.google.com'
-        )
+        ),
+        mock.call.get()().raise_for_status(),
     ]
 
 
