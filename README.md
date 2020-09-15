@@ -78,6 +78,13 @@ headers = {"Content-Type": "application/json"}
 payload_template = {"device_source": "Tilt","temp": {{ temp }}, "name": "{{ color }} ","temp_unit": "F","gravity": {{ gravity }},"gravity_unit": "G"}
 method = POST
 
+# Brewfather custom stream example
+[webhook]
+url = https://log.brewfather.net/stream?id=aTHF9WlXKrAb1C
+headers = {"Content-Type": "application/json"}
+payload_template = {"name": "Tilt {{ color }}", "gravity": {{ gravity }}, "gravity_unit": "G", "temp": {{ temp }}, "temp_unit": "F"}
+method = POST
+
 [influxdb]
 url = influxdb.corp.com
 port = 80
