@@ -7,6 +7,7 @@ import pathlib
 import signal
 import sys
 import threading
+import traceback
 from functools import partial
 from time import sleep
 from typing import List
@@ -71,7 +72,11 @@ def scan_and_emit_thread(
     scan_and_emit(device, emitters)
     while keep_running:
         LOGGER.debug('Scanning for Tilt data...')
-        scan_and_emit(device, emitters)
+        try:
+            scan_and_emit(device, emitters)
+        except Exception as exception: # pylint: disable=broad-except
+            LOGGER.error("%s\n%s", str(exception),
+                traceback.format_tb(exception.__traceback__))
         sleep_time = int(CONFIG['general'].get('sleep_interval', '1'))
         LOGGER.debug('Sleeping for %s....', sleep_time)
         sleep(sleep_time)
@@ -128,6 +133,3 @@ def run(
         name='tilty_daemon',
         args=(device, CONFIG, keep_running)
     ).start()
-    if keep_running:
-        while True:
-            pass
