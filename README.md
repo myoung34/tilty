@@ -60,7 +60,7 @@ file = /etc/tilty/tilt.sqlite
 [webhook]
 url = http://www.foo.com
 headers = {"Content-Type": "application/json"}
-payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "mac": {{ mac }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
+payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "mac": "{{ mac }}", "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
 method = POST
 delay_minutes = 1 # cause a minimum delay between webhook emits
 
