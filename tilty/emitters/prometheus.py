@@ -4,8 +4,8 @@ import json
 import logging
 
 from jinja2 import Template
-
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
+
 from tilty.common import safe_get_key
 
 LOGGER = logging.getLogger()

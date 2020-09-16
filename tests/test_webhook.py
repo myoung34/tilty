@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+import datetime
 from unittest import mock
 
 import pytest
-import datetime
 
 from tilty.emitters import webhook
 

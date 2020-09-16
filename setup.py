@@ -20,6 +20,7 @@ setup(
         'datadog',
         'influxdb',
         'Jinja2',
+        'prometheus_client==0.8.0',
         'pybluez',
         'requests',
         'urllib3>=1.24.2',
