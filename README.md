@@ -30,6 +30,7 @@ The Tilt supports writing to a google doc which you could use with something lik
 * Datadog (dogstatsd)
 * SQLite
 * Google Sheets (experimental/advanced)
+* Prometheus (via pushgateway)
 
 ## Usage ##
 
@@ -97,6 +98,13 @@ temperature_payload_template = {"measurement": "temperature", "tags": {"color": 
 # Note: make sure that the dd agent has DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
 host = statsdhost.corp.com
 port = 8125
+
+[prometheus]
+url = localhost:80
+gravity_gauge_name = tilty_gravity_g
+temp_gauge_name = tilty_temperature_f
+labels = {"color": "{{ color }}", "mac": "{{ mac }}"}
+job_name = tilty
 EOF
 ```
 
