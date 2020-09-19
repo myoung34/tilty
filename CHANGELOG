@@ -1,3 +1,9 @@
+## 0.7.0
+
+IMPROVEMENTS:
+
+ * Add prometheus emitter: https://github.com/myoung34/tilty/pull/29
+
 ## 0.6.4
 
 IMPROVEMENTS:
