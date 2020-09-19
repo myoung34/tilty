@@ -60,7 +60,7 @@ file = /etc/tilty/tilt.sqlite
 [webhook]
 url = http://www.foo.com
 headers = {"Content-Type": "application/json"}
-payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "mac": {{ mac }}, "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
+payload_template = {"color": "{{ color }}", "gravity": {{ gravity }}, "mac": "{{ mac }}", "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
 method = POST
 delay_minutes = 1 # cause a minimum delay between webhook emits
 
@@ -76,6 +76,13 @@ method = POST
 url = https://log.brewersfriend.com/stream/3009ec67c6d81276185c90824951bd32bg
 headers = {"Content-Type": "application/json"}
 payload_template = {"device_source": "Tilt","temp": {{ temp }}, "name": "{{ color }} ","temp_unit": "F","gravity": {{ gravity }},"gravity_unit": "G"}
+method = POST
+
+# Brewfather custom stream example
+[webhook]
+url = https://log.brewfather.net/stream?id=aTHF9WlXKrAb1C
+headers = {"Content-Type": "application/json"}
+payload_template = {"name": "Tilt {{ color }}", "gravity": {{ gravity }}, "gravity_unit": "G", "temp": {{ temp }}, "temp_unit": "F"}
 method = POST
 
 [influxdb]
