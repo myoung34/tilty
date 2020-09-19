@@ -11,4 +11,5 @@ RUN python3 setup.py install
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
+VOLUME "/etc/tilty"
 CMD ["-r", "--config-file", "/etc/tilty/config.ini"]
