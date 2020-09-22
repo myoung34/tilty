@@ -74,9 +74,9 @@ method = POST
 
 # Brewers Friend example
 [webhook]
-url = https://log.brewersfriend.com/stream/3009ec67c6d81276185c90824951bd32bg
-headers = {"Content-Type": "application/json"}
-payload_template = {"device_source": "Tilt","temp": {{ temp }}, "name": "{{ color }} ","temp_unit": "F","gravity": {{ gravity }},"gravity_unit": "G"}
+url = https://log.brewersfriend.com/tilt/3009ec67c6d81276185c90824951bd32bg
+headers = {"Content-Type": "application/x-www-form-urlencoded"}
+payload_template = {"SG": {{ gravity }}, "Temp": {{ temp }}, "Color": "{{ color }}"}
 method = POST
 
 # Brewfather custom stream example
