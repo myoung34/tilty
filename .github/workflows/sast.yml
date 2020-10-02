@@ -47,7 +47,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         architecture: x64
     - name: install pre-reqs
-      run: sudo apt-get update && sudo apt-get install libbluetooth-dev && pip install poetry pre-commit
+      run: sudo apt-get update && sudo apt-get install libbluetooth-dev && pip install -U pip && pip install poetry pre-commit
     - name: Configure poetry
       run: poetry config virtualenvs.in-project true
     - name: Install dependencies
