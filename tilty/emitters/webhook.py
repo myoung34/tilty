@@ -52,9 +52,9 @@ class Webhook:  # pylint: disable=too-few-public-methods
             tilt_data (dict): data returned from valid tilt device scan
         """
 
-        tilt_mac = str(tilt_data['mac'])
+        tilt_uuid = str(tilt_data['uuid'])
         now = datetime.datetime.now(datetime.timezone.utc)
-        delay_until = self.delay_until.get(tilt_mac)
+        delay_until = self.delay_until.get(tilt_uuid)
         if delay_until and now < delay_until:
             return None
 
@@ -74,7 +74,7 @@ class Webhook:  # pylint: disable=too-few-public-methods
         )
 
         if self.delay_minutes:
-            self.delay_until[tilt_mac] = now + datetime.timedelta(
+            self.delay_until[tilt_uuid] = now + datetime.timedelta(
                     minutes=self.delay_minutes)
 
         if self.headers and 'json' in self.headers.get('Content-Type', {}):

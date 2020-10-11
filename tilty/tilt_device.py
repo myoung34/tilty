@@ -38,24 +38,29 @@ class TiltDevice:  # pylint: disable=too-few-public-methods
         LOGGER.debug('Stopping device socket')
         blescan.hci_disable_le_scan(self.sock)
 
-    def scan_for_tilt_data(self) -> dict:
+    def scan_for_tilt_data(self) -> list:
         """ scan for tilt and return data if found """
 
-        data = {}
+        data = []
         LOGGER.debug('Looking for events')
         for beacon in blescan.get_events(self.sock):
-            if beacon['uuid'] in constants.TILT_DEVICES:
-                data = {
-                    'color': constants.TILT_DEVICES[beacon['uuid']],
+            uuid = beacon.get('uuid')
+            if uuid is None:
+                continue
+            color = constants.TILT_DEVICES.get(uuid)
+            if color:
+                data.append({
+                    'color': color,
                     'gravity': float(beacon['minor']/1000),
                     'temp': beacon['major'],
                     'mac': beacon['mac'],
                     'timestamp': datetime.now().isoformat(),
-                }
+                    'uuid': uuid
+                })
             else:
                 LOGGER.debug(
                     "Beacon UUID is not a tilt device: %s",
-                    beacon['uuid']
+                    uuid
                 )
 
         return data
