@@ -55,7 +55,7 @@ class Webhook:  # pylint: disable=too-few-public-methods
             tilt_data (dict): data returned from valid tilt device scan
         """
 
-        tilt_uuid = str(tilt_data['uuid'])
+        delay_until_identifier = str(tilt_data[self.delay_until_identifier])
         now = datetime.datetime.now(datetime.timezone.utc)
         delay_until = self.delay_until.get(delay_until_identifier)
         if delay_until and now < delay_until:
