@@ -2,6 +2,16 @@
 
 IMPROVEMENTS:
 
+ * Store webhook delays per tilt (by color or configurable key): https://github.com/myoung34/tilty/pull/32
+
+BUG FIXES:
+
+ * Better error handling, fix CPU maxing out a core: https://github.com/myoung34/tilty/pull/33
+
+## 0.7.0
+
+IMPROVEMENTS:
+
  * Add prometheus emitter: https://github.com/myoung34/tilty/pull/29
 
 ## 0.6.4
