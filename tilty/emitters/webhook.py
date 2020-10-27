@@ -43,10 +43,11 @@ class Webhook:  # pylint: disable=too-few-public-methods
         self.delay_minutes: Union[int, None] = delay_minutes
         self.headers: dict = json.loads(config['headers'])
         self.template: Template = Template(config['payload_template'])
-        self.delay_until_identifier = config.get(
+        self.delay_until_identifier: str = config.get(
             'delay_until_identifier',
             'color'
         )
+        self.delay_until: Dict[str, datetime.datetime] = dict()
 
     def emit(self, tilt_data: dict) -> None:
         """ Initializer

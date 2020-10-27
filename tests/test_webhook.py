@@ -128,7 +128,6 @@ def test_webhook_delay_minutes(
         'method': 'GET',
     }
 
-
     wh = webhook.Webhook(config=config)
     # On init, we load delay_minutes from config
     assert wh.delay_minutes == 3
@@ -154,7 +153,7 @@ def test_webhook_delay_minutes(
     now = datetime.datetime.now(datetime.timezone.utc)
     assert wh.delay_minutes == 3
     # delay_until should be set for about 3 minutes from now
-    delay_until = wh.delay_until.get(black_tilt_uuid)
+    delay_until = wh.delay_until.get('black')
     assert delay_until is not None and delay_until >= now
     # emitted twice, but the second returned before actually sending a request.
     assert mock_requests.mock_calls == [
@@ -166,7 +165,7 @@ def test_webhook_delay_minutes(
     ]
 
     # enxure that the blue tilt can send while the black one is waiting
-    delay_until = wh.delay_until.get(blue_tilt_uuid)
+    delay_until = wh.delay_until.get('blue')
     assert delay_until is None
     wh.emit({
         'color': 'blue',
@@ -174,9 +173,9 @@ def test_webhook_delay_minutes(
         'mac': '00:0a:95:9d:68:17',
         'temp': 99,
         'timestamp': 155559999,
-        'uuid': blue_tilt_uuid
+        'uuid': 'a495bb60c5b14b44b5121370f02d74de',
     })
-    delay_until = wh.delay_until.get(blue_tilt_uuid)
+    delay_until = wh.delay_until.get('blue')
     assert delay_until is not None and delay_until >= now
     assert mock_requests.mock_calls == [
         mock.call.get('GET'),
@@ -192,17 +191,17 @@ def test_webhook_delay_minutes(
 
     # move the clock forward by setting delay_until to the past, which should
     # allow a request to process again
-    wh.delay_until[black_tilt_uuid] = now - datetime.timedelta(minutes=1)
+    wh.delay_until['black'] = now - datetime.timedelta(minutes=1)
     wh.emit({
         'color': 'black',
         'gravity': 3,
         'mac': '00:0a:95:9d:68:16',
         'temp': 34,
         'timestamp': 155558899,
-        'uuid': black_tilt_uuid
+        'uuid': 'a495bb30c5b14b44b5121370f02d74de',
     })
     # delay_until is once again about 3 minutes in the future
-    delay_until = wh.delay_until.get(black_tilt_uuid)
+    delay_until = wh.delay_until.get('black')
     assert delay_until is not None and delay_until >= now
     # we now see the request that was made after the delay timeout
     assert mock_requests.mock_calls == [
