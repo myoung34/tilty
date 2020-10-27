@@ -150,7 +150,7 @@ def test_webhook_delay_minutes(
         'mac': '00:0a:95:9d:68:16',
         'temp': 33,
         'timestamp': 155558899,
-        'uuid': black_tilt_uuid
+        'uuid': 'a495bb30c5b14b44b5121370f02d74de',
     })
     now = datetime.datetime.now(datetime.timezone.utc)
     assert wh.delay_minutes == 3
