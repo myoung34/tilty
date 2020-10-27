@@ -77,7 +77,8 @@ class Webhook:  # pylint: disable=too-few-public-methods
         )
 
         if self.delay_minutes:
-            self.delay_until[tilt_uuid] = now + datetime.timedelta(
+            timedelta = datetime.timedelta(minutes=self.delay_minutes)
+            self.delay_until[delay_until_identifier] = now + timedelta
                     minutes=self.delay_minutes)
 
         if self.headers and 'json' in self.headers.get('Content-Type', {}):
