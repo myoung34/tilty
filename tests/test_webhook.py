@@ -134,7 +134,7 @@ def test_webhook_delay_minutes(
     # On init, we load delay_minutes from config
     assert wh.delay_minutes == 3
     # delay_until is unset until emitting calling emit once
-    delay_until = wh.delay_until.get(black_tilt_uuid)
+    delay_until = wh.delay_until.get('black')
     assert delay_until is None
     wh.emit({
         'color': 'black',
