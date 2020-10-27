@@ -128,7 +128,6 @@ def test_webhook_delay_minutes(
         'method': 'GET',
     }
 
-    black_tilt_uuid = 'a495bb30c5b14b44b5121370f02d74de'
     blue_tilt_uuid = 'a495bb60c5b14b44b5121370f02d74de'
 
     wh = webhook.Webhook(config=config)
