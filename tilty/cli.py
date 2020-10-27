@@ -48,9 +48,10 @@ def scan_and_emit(device: tilt_device.TiltDevice, emitters: List[dict]):
     LOGGER.debug('Starting device scan')
     tilt_data = device.scan_for_tilt_data()
     if tilt_data:
-        LOGGER.debug('tilt data retrieved')
-        LOGGER.info(tilt_data)
-        emit(emitters=emitters, tilt_data=tilt_data)
+        for event in tilt_data:
+            LOGGER.debug('tilt data retrieved')
+            LOGGER.info(event)
+            emit(emitters=emitters, tilt_data=event)
     else:
         LOGGER.debug('No tilt data')
 

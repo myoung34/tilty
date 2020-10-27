@@ -43,18 +43,23 @@ class Webhook:  # pylint: disable=too-few-public-methods
         self.delay_minutes: Union[int, None] = delay_minutes
         self.headers: dict = json.loads(config['headers'])
         self.template: Template = Template(config['payload_template'])
-        self.delay_until: Union[datetime.datetime, None] = None
+        self.delay_until_identifier = config.get(
+            'delay_until_identifier',
+            'color'
+        )
 
-    def emit(self, tilt_data: dict) -> None:  # pylint:disable=inconsistent-return-statements  # noqa
+    def emit(self, tilt_data: dict) -> None:
         """ Initializer
 
         Args:
             tilt_data (dict): data returned from valid tilt device scan
         """
 
+        delay_until_identifier = str(tilt_data[self.delay_until_identifier])
         now = datetime.datetime.now(datetime.timezone.utc)
-        if self.delay_until and now < self.delay_until:
-            return
+        delay_until = self.delay_until.get(delay_until_identifier)
+        if delay_until and now < delay_until:
+            return None
 
         payload: dict = json.loads(self.template.render(
             color=tilt_data['color'],
@@ -72,8 +77,8 @@ class Webhook:  # pylint: disable=too-few-public-methods
         )
 
         if self.delay_minutes:
-            self.delay_until = now + datetime.timedelta(
-                    minutes=self.delay_minutes)
+            timedelta = datetime.timedelta(minutes=self.delay_minutes)
+            self.delay_until[delay_until_identifier] = now + timedelta
 
         if self.headers and 'json' in self.headers.get('Content-Type', {}):
             LOGGER.debug('[webhook] sending as json')
@@ -89,4 +94,4 @@ class Webhook:  # pylint: disable=too-few-public-methods
             data=payload,
         )
         response.raise_for_status()
-        return
+        return None
