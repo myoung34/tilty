@@ -79,7 +79,6 @@ class Webhook:  # pylint: disable=too-few-public-methods
         if self.delay_minutes:
             timedelta = datetime.timedelta(minutes=self.delay_minutes)
             self.delay_until[delay_until_identifier] = now + timedelta
-                    minutes=self.delay_minutes)
 
         if self.headers and 'json' in self.headers.get('Content-Type', {}):
             LOGGER.debug('[webhook] sending as json')
