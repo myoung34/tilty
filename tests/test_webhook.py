@@ -141,7 +141,7 @@ def test_webhook_delay_minutes(
         'mac': '00:0a:95:9d:68:16',
         'temp': 32,
         'timestamp': 155558888,
-        'uuid': black_tilt_uuid
+        'uuid': 'a495bb30c5b14b44b5121370f02d74de',
     })
     wh.emit({
         'color': 'black',
