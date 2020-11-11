@@ -23,7 +23,7 @@ setup(
         'prometheus_client==0.8.0',
         'pybluez',
         'requests',
-        'urllib3>=1.24.2',
+        'urllib3>1.25.1,<1.26',
         'google-auth==1.20.1',
         'google-api-core==1.20.1',
         'google-api-python-client==1.10.0',
