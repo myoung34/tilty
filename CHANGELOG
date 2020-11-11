@@ -1,4 +1,10 @@
-## 0.7.0
+## 0.8.1
+
+BUG FIXES:
+
+ *  Pin urllib3 to urllib3>1.25.1,<1.2 to prevent build errors
+
+## 0.8.0
 
 IMPROVEMENTS:
 

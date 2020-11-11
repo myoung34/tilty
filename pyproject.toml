@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Tilty"
-version = "0.8.0"
+version = "0.8.1"
 description = "A pluggable system to receive and transmit bluetooth events from the Tilt Hydrometer"
 authors = ["Marcus Young <3vilpenguin@gmail.com>"]
 license = "MIT"
