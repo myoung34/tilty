@@ -76,7 +76,7 @@ jobs:
     - name: Copy Repo Files
       uses: actions/checkout@v2
     - name: get version
-      run: echo "::set-env name=TAG::$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g")"
+      run: echo 'TAG='$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g") >> $GITHUB_ENV
     - name: Set up Docker Buildx
       id: buildx
       uses: crazy-max/ghaction-docker-buildx@v1
