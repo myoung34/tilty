@@ -2,6 +2,7 @@
 """ InfluxDB emitter """
 import json
 import logging
+from distutils import util as distutil
 
 from influxdb import InfluxDBClient
 from jinja2 import Template
@@ -31,12 +32,20 @@ class InfluxDB:  # pylint: disable=too-few-public-methods
         # temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}  # noqa  # pylint: disable=line-too-long
         self.gravity_template = Template(config['gravity_payload_template'])  # noqa
         self.temperature_template = Template(config['temperature_payload_template'])  # noqa
+        ssl = bool(distutil.strtobool(
+            safe_get_key(config, 'ssl', 'False')
+        ))
+        verify_ssl = bool(distutil.strtobool(
+            safe_get_key(config, 'verify_ssl', 'False')
+        ))
         self.client = InfluxDBClient(
-            config['url'],
-            safe_get_key(config, 'port', 80),
-            safe_get_key(config, 'user'),
-            safe_get_key(config, 'password'),
-            config['database']
+            host=config['url'],
+            port=safe_get_key(config, 'port', 80),
+            username=safe_get_key(config, 'user'),
+            password=safe_get_key(config, 'password'),
+            ssl=ssl,
+            verify_ssl=verify_ssl,
+            database=config['database']
         )
 
     def emit(self, tilt_data: dict) -> None:

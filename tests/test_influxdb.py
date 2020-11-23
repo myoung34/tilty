@@ -27,7 +27,15 @@ def test_influxdb(
         'mac': 'foo',
     })
     assert mock_influx_client.mock_calls == [
-        mock.call('http://www.google.com', 80, None, None, 'foo'),
+        mock.call(
+            database='foo',
+            host='http://www.google.com',
+            password=None,
+            port=80,
+            ssl=False,
+            username=None,
+            verify_ssl=False,
+        ),
         mock.call().write_points([
             {
                 'measurement': 'temperature',
