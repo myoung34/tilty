@@ -90,6 +90,9 @@ method = POST
 url = influxdb.corp.com
 port = 80
 database = tilty
+password = foo # optional
+ssl = True # default is False
+verify_ssl = True # default is False
 gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}", "mac": "{{ mac }}"}, "fields": {"value": {{ gravity }}}}
 temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}", "mac": "{{ mac }}"}, "fields": {"value": {{ temp }}}}
 # `% curl  -s -G 'http://influxdb.service.consul:8086/query?pretty=true' --data-urlencode "db=tilty" --data-urlencode 'q=SELECT "value", "mac", "color" FROM "autogen"."gravity"' | jq '.results[].series[].values[0]'`
