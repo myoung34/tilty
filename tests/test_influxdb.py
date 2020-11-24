@@ -15,7 +15,9 @@ def test_influxdb(
 ):
     config = {
         'url': 'http://www.google.com',
-        'database': 'foo',
+        'org': 'foo',
+        'bucket': 'wat',
+        'token': 'somelongtoken',
         'gravity_payload_template': '{"measurement": "gravity", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ gravity }}}}',  # noqa
         'temperature_payload_template': '{"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}',  # noqa
     }
@@ -28,26 +30,20 @@ def test_influxdb(
     })
     assert mock_influx_client.mock_calls == [
         mock.call(
-            database='foo',
-            host='http://www.google.com',
-            password=None,
-            port=80,
-            ssl=False,
-            username=None,
-            verify_ssl=False,
+            org='foo',
+            token='somelongtoken',
+            url='http://www.google.com',
+            verify_ssl=False
         ),
-        mock.call().write_points([
-            {
-                'measurement': 'temperature',
-                'tags': {'color': 'black'},
-                'fields': {'value': 80}
-            }
-        ]),
-        mock.call().write_points([
-            {
-                'measurement': 'gravity',
-                'tags': {'color': 'black'},
-                'fields': {'value': 1.054}
-            }
-        ])
+        mock.call().write_api(write_options=mock.ANY),
+        mock.call().write_api().write(
+            bucket='wat',
+            org='foo',
+            record='{"measurement": "temperature", "tags": {"color": "black"}, "fields": {"value": 80}}'  # noqa
+        ),
+        mock.call().write_api().write(
+            bucket='wat',
+            org='foo',
+            record='{"measurement": "gravity", "tags": {"color": "black"}, "fields": {"value": 1.054}}'  # noqa
+        ),
     ]

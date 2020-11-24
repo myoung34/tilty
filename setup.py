@@ -18,7 +18,7 @@ setup(
     install_requires=[
         'Click',
         'datadog',
-        'influxdb',
+        'influxdb-client==1.12.0',
         'Jinja2',
         'prometheus_client==0.8.0',
         'pybluez',

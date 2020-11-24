@@ -26,7 +26,7 @@ The Tilt supports writing to a google doc which you could use with something lik
   * Generic (Send to any endpoint with any type)
   * Brewstat.us (Example below)
   * BrewersFriend (Example below)
-* InfluxDB
+* InfluxDB (1.8+)
 * Datadog (dogstatsd)
 * SQLite
 * Google Sheets (experimental/advanced)
@@ -87,15 +87,14 @@ payload_template = {"name": "Tilt {{ color }}", "gravity": {{ gravity }}, "gravi
 method = POST
 
 [influxdb]
-url = influxdb.corp.com
-port = 80
-database = tilty
-password = foo # optional
-ssl = True # default is False
-verify_ssl = True # default is False
-gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}", "mac": "{{ mac }}"}, "fields": {"value": {{ gravity }}}}
-temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}", "mac": "{{ mac }}"}, "fields": {"value": {{ temp }}}}
-# `% curl  -s -G 'http://influxdb.service.consul:8086/query?pretty=true' --data-urlencode "db=tilty" --data-urlencode 'q=SELECT "value", "mac", "color" FROM "autogen"."gravity"' | jq '.results[].series[].values[0]'`
+url = http://localhost:8086
+verify_ssl = True # defaults to False, only used if url is https://
+bucket = tilty
+org = Mine
+token = mytoken # if using influx cloud
+token = myuser:password # if using self hosted
+gravity_payload_template = gravity,color={{ color }},mac={{ mac }} sg={{ gravity }}
+temperature_payload_template = temperature,color={{ color }},mac={{ mac }} temp={{ temp }}
 
 [datadog]
 # Note: make sure that the dd agent has DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true

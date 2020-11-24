@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """ InfluxDB emitter """
-import json
 import logging
 from distutils import util as distutil
 
-from influxdb import InfluxDBClient
+from influxdb_client import InfluxDBClient
+from influxdb_client.client.write_api import SYNCHRONOUS
 from jinja2 import Template
 
 from tilty.common import safe_get_key
@@ -32,21 +32,19 @@ class InfluxDB:  # pylint: disable=too-few-public-methods
         # temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}  # noqa  # pylint: disable=line-too-long
         self.gravity_template = Template(config['gravity_payload_template'])  # noqa
         self.temperature_template = Template(config['temperature_payload_template'])  # noqa
-        ssl = bool(distutil.strtobool(
-            safe_get_key(config, 'ssl', 'False')
-        ))
+        self.bucket = safe_get_key(config, 'bucket')
+
         verify_ssl = bool(distutil.strtobool(
             safe_get_key(config, 'verify_ssl', 'False')
         ))
-        self.client = InfluxDBClient(
-            host=config['url'],
-            port=safe_get_key(config, 'port', 80),
-            username=safe_get_key(config, 'user'),
-            password=safe_get_key(config, 'password'),
-            ssl=ssl,
-            verify_ssl=verify_ssl,
-            database=config['database']
+        self.org = safe_get_key(config, 'org')
+        client = InfluxDBClient(
+            url=config['url'],
+            org=self.org,
+            token=safe_get_key(config, 'token'),
+            verify_ssl=verify_ssl
         )
+        self.write_api = client.write_api(write_options=SYNCHRONOUS)
 
     def emit(self, tilt_data: dict) -> None:
         """ Initializer
@@ -59,16 +57,22 @@ class InfluxDB:  # pylint: disable=too-few-public-methods
             gravity=tilt_data['gravity'],
             mac=tilt_data['mac'],
             temp=tilt_data['temp'],
-            timestamp=tilt_data['timestamp'],
         )
         gravity_payload = self.gravity_template.render(
             color=tilt_data['color'],
             gravity=tilt_data['gravity'],
             mac=tilt_data['mac'],
             temp=tilt_data['temp'],
-            timestamp=tilt_data['timestamp'],
         )
         LOGGER.info('[influxdb] posting temperature data')
-        self.client.write_points([json.loads(temperature_payload)])
+        self.write_api.write(
+            bucket=self.bucket,
+            org=self.org,
+            record=temperature_payload
+        )
         LOGGER.info('[influxdb] posting gravity data')
-        self.client.write_points([json.loads(gravity_payload)])
+        self.write_api.write(
+            bucket=self.bucket,
+            org=self.org,
+            record=gravity_payload
+        )
