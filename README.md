@@ -5,7 +5,8 @@ Tilty
 [![PyPI version](https://img.shields.io/pypi/v/tilty.svg)](https://pypi.python.org/pypi/Tilty/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/myoung34/tilty.svg)](https://hub.docker.com/r/myoung34/tilty)
 
-![](datadog.png)
+![](assets/datadog.png)
+![](assets/influxdb.png)
 
 A python module and CLI to capture and emit events from your [tilt hydrometer](https://tilthydrometer.com/)
 

@@ -24,12 +24,6 @@ class InfluxDB:  # pylint: disable=too-few-public-methods
         Args:
             config: (dict) represents the configuration for the emitter
         """
-        # [influxdb]
-        # url = www.foo.com
-        # port = 80
-        # database = tilty
-        # gravity_payload_template = {"measurement": "gravity", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ gravity }}}}  # noqa  # pylint: disable=line-too-long
-        # temperature_payload_template = {"measurement": "temperature", "tags": {"color": "{{ color }}"}, "fields": {"value": {{ temp }}}}  # noqa  # pylint: disable=line-too-long
         self.gravity_template = Template(config['gravity_payload_template'])  # noqa
         self.temperature_template = Template(config['temperature_payload_template'])  # noqa
         self.bucket = safe_get_key(config, 'bucket')
