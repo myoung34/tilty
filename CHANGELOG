@@ -1,3 +1,14 @@
+## 0.10.0
+
+IMPROVEMENTS:
+
+ * Add support for influx cloud via new influxdb client:
+ https://github.com/myoung34/tilty/pull/35
+
+NOTES:
+
+ * InfluxDB now supports only 1.8 and higher due to new influxdb client
+
 ## 0.9.0
 
 IMPROVEMENTS:
