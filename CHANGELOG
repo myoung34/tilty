@@ -1,3 +1,10 @@
+## 0.10.1
+
+SECURITY:
+
+ * Bump/pin Jinja2 for CVE-2020-28493
+ * Bump/pin urllib for CVE-2021-28363
+
 ## 0.10.0
 
 IMPROVEMENTS:
