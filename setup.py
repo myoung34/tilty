@@ -13,7 +13,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     py_modules=['tilty', 'blescan'],
-    version='0.10.0',
+    version='0.10.1',
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Click',
