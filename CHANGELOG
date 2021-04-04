@@ -1,3 +1,10 @@
+## 0.10.2
+
+SECURITY:
+
+ * Bump alpine to 3.13.4 to resolve CVE-2021-28831
+ * Allowlist CVE-2020-28928 as its fixed in musl 1.2.2 in alpine 3.13.4
+
 ## 0.10.1
 
 SECURITY:
