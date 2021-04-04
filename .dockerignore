@@ -4,3 +4,4 @@ Dockerfile
 Makefile
 .git
 LICENSE
+.claire.yml
