@@ -6,7 +6,8 @@ RUN apk add -U --no-cache python3 python3-dev alpine-sdk bluez-dev py3-setuptool
 
 COPY . /src
 WORKDIR /src
-RUN python3 setup.py install
+RUN python3 setup.py install && \
+  apk del alpine-sdk
 
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
