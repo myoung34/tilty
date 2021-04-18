@@ -34,7 +34,7 @@ jobs:
       - name: Build
         run: docker build -t myoung34/tilty:latest .
       - name: Test
-        run: ./clair-scanner -w .claire.yml --ip $(ip -f inet addr show eth0 | grep -Po 'inet \K[\d.]+') myoung34/tilty:latest
+        run: ./clair-scanner --ip $(ip -f inet addr show eth0 | grep -Po 'inet \K[\d.]+') myoung34/tilty:latest
   bandit:
     runs-on: ubuntu-latest
     strategy:
