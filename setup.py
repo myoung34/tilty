@@ -13,7 +13,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     py_modules=['tilty', 'blescan'],
-    version='0.10.2',
+    version='0.10.3',
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Click',
@@ -23,7 +23,7 @@ setup(
         'prometheus_client==0.8.0',
         'pybluez',
         'requests',
-        'urllib3>=1.26.4',
+        'urllib3>=1.26.5',
         'google-auth==1.20.1',
         'google-api-core==1.20.1',
         'google-api-python-client==1.10.0',

@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "Tilty"
-version = "0.10.2"
+version = "0.10.3"
 description = "A pluggable system to receive and transmit bluetooth events from the Tilt Hydrometer"
 authors = ["Marcus Young <3vilpenguin@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = ">=3.6,<4"
-urllib3 = ">=1.26.4"
+urllib3 = ">=1.26.5"
 click = "^7.0"
 pybluez = "^0.22.0"
 requests = "^2.22"
