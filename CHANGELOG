@@ -1,3 +1,9 @@
+## 0.11.0
+
+IMPROVEMENTS:
+
+ * Add ability to configure temperature and gravity offsets: https://github.com/myoung34/tilty/pull/44
+
 ## 0.10.2
 
 SECURITY:
