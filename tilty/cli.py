@@ -15,6 +15,7 @@ from typing import List
 import click
 
 from tilty import tilt_device
+from tilty.common import safe_get_key
 from tilty.exceptions import ConfigurationFileNotFoundException
 from tilty.tilty import LOGGER, emit, parse_config
 
@@ -38,15 +39,24 @@ def terminate_process(
     sys.exit()
 
 
-def scan_and_emit(device: tilt_device.TiltDevice, emitters: List[dict]):
+def scan_and_emit(
+    device: tilt_device.TiltDevice,
+    emitters: List[dict],
+    gravity_offset: float,
+    temperature_offset: float
+):
     """ Scans and emits the data via the loaded emitters.
 
     Args:
         device (TiltDevice): The bluetooth device to operate on.
         emitters ([dict]): The emitters to use.
     """
+
     LOGGER.debug('Starting device scan')
-    tilt_data = device.scan_for_tilt_data()
+    tilt_data = device.scan_for_tilt_data(
+        gravity_offset=gravity_offset,
+        temperature_offset=temperature_offset,
+    )
     if tilt_data:
         for event in tilt_data:
             LOGGER.debug('tilt data retrieved')
@@ -70,11 +80,21 @@ def scan_and_emit_thread(
     """
     emitters = parse_config(config)
     click.echo('Scanning for Tilt data...')
-    scan_and_emit(device, emitters)
+
+    gravity_offset = float(
+        safe_get_key(CONFIG, 'general', {}).get('gravity_offset', '0')
+    )
+    LOGGER.debug('Gravity offset: %f', gravity_offset)
+    temperature_offset = float(
+        safe_get_key(CONFIG, 'general', {}).get('temperature_offset', '0')
+    )
+    LOGGER.debug('Temperature offset: %f', temperature_offset)
+
+    scan_and_emit(device, emitters, gravity_offset, temperature_offset)
     while keep_running:
         LOGGER.debug('Scanning for Tilt data...')
         try:
-            scan_and_emit(device, emitters)
+            scan_and_emit(device, emitters, gravity_offset, temperature_offset)
         except Exception as exception:  # pylint: disable=broad-except
             LOGGER.error(
                 "%s\n%s",

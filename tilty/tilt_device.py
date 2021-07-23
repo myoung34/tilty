@@ -38,7 +38,11 @@ class TiltDevice:  # pylint: disable=too-few-public-methods
         LOGGER.debug('Stopping device socket')
         blescan.hci_disable_le_scan(self.sock)
 
-    def scan_for_tilt_data(self) -> list:
+    def scan_for_tilt_data(
+        self,
+        temperature_offset: float = 0,
+        gravity_offset: float = 0
+    ) -> list:
         """ scan for tilt and return data if found """
 
         data = []
@@ -51,8 +55,8 @@ class TiltDevice:  # pylint: disable=too-few-public-methods
             if color:
                 data.append({
                     'color': color,
-                    'gravity': float(beacon['minor']/1000),
-                    'temp': beacon['major'],
+                    'gravity': (float(beacon['minor']/1000) + gravity_offset),
+                    'temp': float(beacon['major'] + temperature_offset),
                     'mac': beacon['mac'],
                     'timestamp': datetime.now().isoformat(),
                     'uuid': uuid

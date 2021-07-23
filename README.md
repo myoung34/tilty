@@ -41,6 +41,8 @@ The Tilt supports writing to a google doc which you could use with something lik
 $ cat <<EOF >config.ini
 [general]
 sleep_interval = 2 # defaults to 1
+gravity_offset = -0.001 # subtract 0.001 gravity
+temperature_offset = 3 # add 3 degrees
 logging_level = DEBUG # defaults to INFO
 logfile = /var/log/foo.log # defaults to stdout
 

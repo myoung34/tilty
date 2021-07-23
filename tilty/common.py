@@ -4,7 +4,7 @@
 from typing import Any, Optional
 
 
-def safe_get_key(config: dict, key: str, fallback: Optional[Any] = None):
+def safe_get_key(config, key: str, fallback: Optional[Any] = None):
     """ Class to safely pull key from config or a fallback value
 
     Args:
