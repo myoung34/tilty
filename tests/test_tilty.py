@@ -36,13 +36,45 @@ def test_parse_config_invalid_emitter():
 
 
 
-@mock.patch('tilty.blescan.get_events', return_value=[{'uuid': 'foo', 'major': 2, 'minor': 1}]) # noqa
+@mock.patch('tilty.blescan.get_events', return_value=[{'mac': '00:0a:95:9d:68:16', 'uuid': 'a495bb30c5b14b44b5121370f02d74de', 'major': 2, 'minor': 1}]) # noqa
 def test_scan_for_tilt_data(
     bt_events,
 ):
     t = tilt_device.TiltDevice()
-    t.scan_for_tilt_data()
+    tilt_data = t.scan_for_tilt_data()
     bt_events.assert_called()
+    assert tilt_data == [{
+        'color': 'Black',
+        'gravity': 0.001,
+        'temp': 2.0,
+        'mac': '00:0a:95:9d:68:16',
+        'timestamp': mock.ANY,
+        'uuid': 'a495bb30c5b14b44b5121370f02d74de'
+    }]
+
+    assert t.scan_for_tilt_data(
+        temperature_offset=10,
+        gravity_offset=-0.05,
+    ) == [{
+        'color': 'Black',
+        'gravity': -0.049,
+        'temp': 12,
+        'mac': '00:0a:95:9d:68:16',
+        'timestamp': mock.ANY,
+        'uuid': 'a495bb30c5b14b44b5121370f02d74de'
+    }]
+
+    assert t.scan_for_tilt_data(
+        temperature_offset=-5,
+        gravity_offset=0.001,
+    ) == [{
+        'color': 'Black',
+        'gravity': 0.002,
+        'temp': -3.0,
+        'mac': '00:0a:95:9d:68:16',
+        'timestamp': mock.ANY,
+        'uuid': 'a495bb30c5b14b44b5121370f02d74de'
+    }]
 
 
 @mock.patch('tilty.emitters.sqlite.sqlite3')
