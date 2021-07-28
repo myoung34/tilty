@@ -2,3 +2,4 @@ generalwhitelist:
   # musl 1.2.2 resolves -> A buffer overflow (CVE-2020-28928) in wcsnrtombs has been fixed with the function essentially rewritten
   CVE-2020-28928: musl
   CVE-2021-30139: apk-tools
+  CVE-2021-36159: apk-tools
