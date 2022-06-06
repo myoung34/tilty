@@ -13,8 +13,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 2
-    - run: git checkout HEAD^2
-      if: ${{ github.event_name == 'pull_request' }}
     - name: install pre-reqs
       run: sudo apt-get update && sudo apt-get install libbluetooth-dev
     - name: Initialize CodeQL
