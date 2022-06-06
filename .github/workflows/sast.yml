@@ -18,11 +18,11 @@ jobs:
     - name: install pre-reqs
       run: sudo apt-get update && sudo apt-get install libbluetooth-dev
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+      uses: github/codeql-action/autobuild@v2
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v2
   clair:
     runs-on: ubuntu-latest
     steps:
