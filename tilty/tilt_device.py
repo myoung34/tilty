@@ -4,6 +4,7 @@
 from datetime import datetime
 
 import bluetooth._bluetooth as bluez
+
 from tilty import blescan, constants
 from tilty.tilty import LOGGER
 
