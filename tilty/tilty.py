@@ -24,10 +24,10 @@ def parse_config(config: configparser.ConfigParser) -> List[dict]:
         LOGGER.info(
             "Loading emitter: %s (%s)",
             emitter,
-            f"{__name__.rsplit('.')[0]}.emitters.{emitter}"
+            f"{__name__.split('.', maxsplit=1)[0]}.emitters.{emitter}"
         )
         _emitter = __import__(
-            f"{__name__.rsplit('.')[0]}.emitters.{emitter}",
+            f"{__name__.split('.', maxsplit=1)[0]}.emitters.{emitter}",
             fromlist=['']
         )
         _config: dict = {}

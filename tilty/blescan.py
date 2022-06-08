@@ -15,14 +15,14 @@ def string_packet(pkt):
     # b'\xfe\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
     # so len() is 16
     # loop over each byte, get it to hex, build up the string (uuid is 32 chars, 16bytes)  # noqa
-    return ''.join(["%02x" % int.from_bytes(pkt[i:i+1], "big") for i in range(len(pkt))])  # noqa
+    return ''.join(["%02x" % int.from_bytes(pkt[i:i+1], "big") for i in range(len(pkt))])  # noqa  # pylint: disable=consider-using-f-string
 
 
 def packed_bdaddr_to_string(bdaddr_packed):
     #  iBeacon packets have the mac byte-reversed, reverse with bdaddr_packed[::-1]  # noqa
     #  b'ID\x8b\xea&b' -> b'b&\xea\x8bDI'
     #  decode to int -> (98, 38, 234, 139, 68, 73) , join by : as hex -> '62:26:ea:8b:44:49'  # noqa
-    return ':'.join('%02x' % i for i in struct.unpack("<BBBBBB", bdaddr_packed[::-1]))  # noqa
+    return ':'.join('%02x' % i for i in struct.unpack("<BBBBBB", bdaddr_packed[::-1]))  # noqa  # pylint: disable=consider-using-f-string
 
 
 def hci_enable_le_scan(sock):
