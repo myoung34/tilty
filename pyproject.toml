@@ -6,7 +6,7 @@ authors = ["Marcus Young <3vilpenguin@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">=3.6,<4"
+python = ">=3.7,<4"
 urllib3 = ">=1.26.5"
 click = "^7.0"
 pybluez = "^0.22.0"
