@@ -47,7 +47,7 @@ class Webhook:  # pylint: disable=too-few-public-methods
             'delay_until_identifier',
             'color'
         )
-        self.delay_until: Dict[str, datetime.datetime] = dict()
+        self.delay_until: Dict[str, datetime.datetime] = {}
 
     def emit(self, tilt_data: dict) -> None:
         """ Initializer
