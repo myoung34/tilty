@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """ InfluxDB emitter """
 import logging
-from distutils import util as distutil
+from distutils import util as distutil  # noqa  # pylint: disable=line-too-long,deprecated-module,fixme  # TODO: fix this
 
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
