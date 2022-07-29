@@ -9,7 +9,7 @@ license = "MIT"
 python = ">=3.7,<4"
 urllib3 = ">=1.26.5"
 click = "^7.0"
-pybluez = "^0.22.0"
+pybluez = { git = "https://github.com/pybluez/pybluez.git", branch = "master" }
 requests = "^2.22"
 jinja2 = ">=2.11.3"
 influxdb-client = "^1.12.0"
