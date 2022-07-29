@@ -588,9 +588,9 @@ ble = ["gattlib"]
 
 [package.source]
 type = "git"
-url = "https://github.com/pybluez/pybluez.git"
-reference = "master"
-resolved_reference = "07ebef044195331a48bbb90a3acb911922048ba0"
+url = "https://github.com/tonyfettes/pybluez.git"
+reference = "bluez-use-bytes"
+resolved_reference = "6c720085fb30aaf5d4331caab367a786c4180f97"
 
 [[package]]
 name = "pycodestyle"
@@ -901,7 +901,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7,<4"
-content-hash = "0757c332d82f1cb5e14526d96b05b8ad9b35a4325dfe11bfd86fa99f1778fbe9"
+content-hash = "439e452d8224d331a2e92f5f53ac222d89fe3f2f37361d43607c4c1f29f5a1f3"
 
 [metadata.files]
 astroid = [

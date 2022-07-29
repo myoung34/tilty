@@ -26,7 +26,7 @@ setup(
         'jinja2>=2.11.3',
         'oauth2client>=4.1.3,<5.0.0',
         'prometheus_client>=0.8.0,<0.9.0',
-        'pybluez @ git+https://github.com/pybluez/pybluez.git@master',
+        'pybluez @ git+https://github.com/tonyfettes/pybluez.git@bluez-use-bytes',
         'requests>=2.22,<3.0',
         'urllib3>=1.26.5',
     ],
