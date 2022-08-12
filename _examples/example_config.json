@@ -1,0 +1,15 @@
+{
+  "general": {
+    "logging_level": "DEBUG",
+    "gravity_offset": -0.001,
+    "temperature_offset": 3,
+    "logfile": "/var/log/foo.log"
+  },
+  "webhook": {
+    "enabled": true,
+    "url": "http://www.foo.com",
+    "headers": "{\"Content-Type\": \"application/json\"}",
+    "payload_template": "{\"color\": \"{{ color }}\", \"gravity\": {{ gravity }}, \"mac\": \"{{ mac }}\", \"temp\": {{ temp }}, \"timestamp\": \"{{ timestamp }}\"}",
+    "method": "POST"
+  }
+}

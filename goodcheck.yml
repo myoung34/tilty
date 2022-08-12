@@ -1,6 +1,0 @@
-rules:
-  - id: com.sample.GitHub
-    pattern:
-      literal: Github
-      case_sensitive: true
-    message: Write GitHub, not Github
