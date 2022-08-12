@@ -2,13 +2,12 @@ Tilty
 =====
 
 [![Coverage Status](https://coveralls.io/repos/github/myoung34/tilty/badge.svg)](https://coveralls.io/github/myoung34/tilty)
-[![PyPI version](https://img.shields.io/pypi/v/tilty.svg)](https://pypi.python.org/pypi/Tilty/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/myoung34/tilty.svg)](https://hub.docker.com/r/myoung34/tilty)
 
 ![](assets/datadog.png)
 ![](assets/influxdb.png)
 
-A python module and CLI to capture and emit events from your [tilt hydrometer](https://tilthydrometer.com/)
+A CLI to capture and emit events from your [tilt hydrometer](https://tilthydrometer.com/)
 
 I've been unhappy with the quality/inconsistency of what I've seen out there in terms of random scripts that capture.
 No tests, no pluggable emitters, hard to find, etc.
@@ -120,26 +119,10 @@ $ tilty
 $ # Or from docker ( generate config into $cwd/config/config.ini )
 $ docker run -it \
   -v $(pwd)/config:/etc/tilty \
+  --privileged \
   --net=host \
   myoung34/tilty:latest \
   -r --config-file /etc/tilty/config.ini
-```
-
-## Installation ##
-
-```
-$ git clone https://github.com/myoung34/tilty
-$ pip install -e .
-```
-
-## Development ##
-
-```
-$ docker run -it -v $(pwd):/src -w /src --entrypoint /bin/sh python:3.7-alpine
-$ apk add -U openssl-dev alpine-sdk libffi-dev python3-dev py3-bluez bluez-dev
-$ pip3 install poetry
-$ poetry install
-$ poetry run tox
 ```
 
 ### Functional Development ###
@@ -150,4 +133,4 @@ To test locally (and without using my tilty): I use iBeacon on android and set:
 * Major to a temperature in F
 * Minor to an SG*1000
 
-![](ibeacon.png)
+![](assets/ibeacon.png)

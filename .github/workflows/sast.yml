@@ -17,6 +17,8 @@ jobs:
       run: sudo apt-get update && sudo apt-get install libbluetooth-dev
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
+      with:
+        languages: go
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
     - name: Perform CodeQL Analysis
@@ -33,24 +35,3 @@ jobs:
         run: docker build -t myoung34/tilty:latest .
       - name: Test
         run: ./clair-scanner -w .claire.yml --ip $(ip -f inet addr show eth0 | grep -Po 'inet \K[\d.]+') myoung34/tilty:latest
-  bandit:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ '3.7', '3.8', '3.9', '3.10' ]
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Setup python
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
-        architecture: x64
-    - name: install pre-reqs
-      run: sudo apt-get update && sudo apt-get install libbluetooth-dev && pip install -U pip && pip install poetry pre-commit
-    - name: Configure poetry
-      run: poetry config virtualenvs.in-project true
-    - name: Install dependencies
-      run: poetry install
-    - name: Run bandit
-      run: poetry run bandit -r tilty

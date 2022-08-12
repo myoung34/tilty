@@ -1,0 +1,50 @@
+# github.com/akamensky/argparse v1.4.0
+## explicit; go 1.13
+github.com/akamensky/argparse
+# github.com/go-kit/kit v0.12.0
+## explicit; go 1.17
+github.com/go-kit/kit/log
+github.com/go-kit/kit/log/level
+# github.com/go-kit/log v0.2.0
+## explicit; go 1.17
+github.com/go-kit/log
+github.com/go-kit/log/level
+# github.com/go-logfmt/logfmt v0.5.1
+## explicit; go 1.17
+github.com/go-logfmt/logfmt
+# github.com/go-playground/locales v0.14.0
+## explicit; go 1.13
+github.com/go-playground/locales
+github.com/go-playground/locales/currency
+# github.com/go-playground/universal-translator v0.18.0
+## explicit; go 1.13
+github.com/go-playground/universal-translator
+# github.com/go-playground/validator/v10 v10.11.0
+## explicit; go 1.13
+github.com/go-playground/validator/v10
+# github.com/leodido/go-urn v1.2.1
+## explicit; go 1.13
+github.com/leodido/go-urn
+# github.com/paypal/gatt v0.0.0-20151011220935-4ae819d591cf
+## explicit
+github.com/paypal/gatt
+github.com/paypal/gatt/examples/option
+github.com/paypal/gatt/linux
+github.com/paypal/gatt/linux/cmd
+github.com/paypal/gatt/linux/evt
+github.com/paypal/gatt/linux/gioctl
+github.com/paypal/gatt/linux/socket
+github.com/paypal/gatt/linux/util
+github.com/paypal/gatt/xpc
+# golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3
+## explicit; go 1.17
+golang.org/x/crypto/sha3
+# golang.org/x/sys v0.0.0-20210917161153-d61c044b1678
+## explicit; go 1.17
+golang.org/x/sys/cpu
+# golang.org/x/text v0.3.7
+## explicit; go 1.17
+golang.org/x/text/internal/language
+golang.org/x/text/internal/language/compact
+golang.org/x/text/internal/tag
+golang.org/x/text/language

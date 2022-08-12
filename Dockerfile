@@ -1,18 +1,19 @@
-FROM alpine:3.16
+FROM golang:alpine AS builder
+ENV CGO_ENABLED=0
+ENV CGO_CHECK=0
+RUN apk update && \
+  apk add --no-cache git=2.36.2-r0
+WORKDIR $GOPATH/src/mypackage/myapp/
+COPY . .
+RUN go build -o /usr/local/bin/tilty main.go
 
+
+FROM alpine:3.16
 LABEL maintainer="3vilpenguin@gmail.com"
 
-RUN apk add -U --no-cache python3 bluez-dev && \
-  apk add --no-cache --virtual .build-deps py3-setuptools py3-pip python3-dev alpine-sdk && \
-  pip3 --no-cache-dir install -U setuptools pip
+RUN apk add -U --no-cache bluez
 
-COPY . /src
-WORKDIR /src
-RUN python3 setup.py install && \
-  apk del .build-deps
-
-COPY entrypoint.sh /
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY --from=builder /usr/local/bin/tilty /usr/local/bin/tilty
 VOLUME "/etc/tilty"
-CMD ["-r", "--config-file", "/etc/tilty/config.ini"]
+ENTRYPOINT ["/usr/local/bin/tilty"]
+CMD ["--config-file", "/etc/tilty/config.ini"]
