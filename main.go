@@ -13,7 +13,6 @@ func main() {
 	tilt.SetLogging()
 	config := cli.ParseArgs()
 	level.Debug(tilt.Logger).Log("main", fmt.Sprintf("Using config file: %s", config.ConfigFile))
-	level.Debug(tilt.Logger).Log("main", fmt.Sprintf("Daemonize: %t", config.Daemonize))
 
 	level.Info(tilt.Logger).Log("main", "Scanning...")
 	device, err := gatt.NewDevice(option.DefaultClientOptions...)

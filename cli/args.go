@@ -19,12 +19,6 @@ func ParseArgs() Config {
 		Help:     "Configuration file location",
 	})
 
-	daemonize := parser.Flag("r", "keep-running", &argparse.Options{
-		Required: false,
-		Default:  false,
-		Help:     "Keep running until SIGTERM",
-	})
-
 	if err := parser.Parse(os.Args); err != nil {
 		fmt.Println(parser.Usage(err))
 		os.Exit(1)
@@ -32,6 +26,5 @@ func ParseArgs() Config {
 
 	return Config{
 		ConfigFile: *configFile,
-		Daemonize:  *daemonize,
 	}
 }

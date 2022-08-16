@@ -23,7 +23,6 @@ var TiltMap = map[string]string{
 	"a495bb10c5b14b44b5121370f02d74de": "RED",
 	"a495bb70c5b14b44b5121370f02d74de": "YELLOW",
 	"a495bb90c5b14b44b5121370f02d74de": "TEST",
-	"25cc0b60914de76ead903f903bfd5e53": "MIGHTY",
 }
 
 type TiltPayload struct {
@@ -37,7 +36,7 @@ type TiltPayload struct {
 func OnStateChanged(device gatt.Device, s gatt.State) {
 	switch s {
 	case gatt.StatePoweredOn:
-		level.Info(Logger).Log("main", "Scanning...")
+		level.Info(Logger).Log("device", "Scanning...")
 		device.Scan([]gatt.UUID{}, true)
 		return
 	default:
@@ -57,6 +56,7 @@ func NewTilt(data []byte) (TiltPayload, error) {
 }
 
 func OnPeripheralDiscovered(p gatt.Peripheral, a *gatt.Advertisement, rssi int) {
+	level.Debug(Logger).Log("device", "fuck")
 	b, err := NewTilt(a.ManufacturerData)
 	if err == nil {
 		payload := TiltPayload{
@@ -67,6 +67,6 @@ func OnPeripheralDiscovered(p gatt.Peripheral, a *gatt.Advertisement, rssi int) 
 			Rssi:  rssi,
 		}
 
-		level.Info(Logger).Log("main", fmt.Sprintf("%s [%s] temp: %d gravity: %d rssi: %d", payload.Id, payload.Color, payload.Major, payload.Minor, rssi))
+		level.Info(Logger).Log("device", fmt.Sprintf("%s [%s] temp: %d gravity: %d rssi: %d", payload.Id, payload.Color, payload.Major, payload.Minor, rssi))
 	}
 }
