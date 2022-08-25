@@ -1,0 +1,12 @@
+builds:
+  - ldflags:
+      - -s -w
+    env:
+      - GODEBUG=cgocheck=0
+    goarch:
+      - 386
+      - amd64
+      - arm
+      - arm64
+    goos:
+      - linux
