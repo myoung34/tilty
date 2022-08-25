@@ -1,3 +1,13 @@
+## 1.1.0
+
+FIXES:
+
+ * All Timestamp are now epoch int64
+
+IMPROVEMENTS:
+
+ * Added some better linters/pre-commit checks, updates to match
+
 ## 1.0.0
 
 IMPROVEMENTS:
@@ -18,12 +28,12 @@ IMPROVEMENTS:
 
 SECURITY:
 
-Ignore CVE-2021-36159, apk-tools is removed from final
-deprecation on using HEAD^2 for codeql
-Bump codeql to v2
-Add pins in setup.py that match requirements.txt. Bump Alpine to 3.16. Clean up dockerfile
-Move from git:// to https://
-Bump alpine to 3.16
+ * Ignore CVE-2021-36159, apk-tools is removed from final
+ * deprecation on using HEAD^2 for codeql
+ * Bump codeql to v2
+ * Add pins in setup.py that match requirements.txt. Bump Alpine to 3.16. Clean up dockerfile
+ * Move from git:// to https://
+ * Bump alpine to 3.16
 
 ## 0.11.0
 
