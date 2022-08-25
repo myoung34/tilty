@@ -84,7 +84,7 @@ func OnPeripheralDiscovered(p gatt.Peripheral, a *gatt.Advertisement, rssi int) 
 			Major:     _tilt.Major,
 			Minor:     _tilt.Minor,
 			Rssi:      rssi,
-			Timestamp: time.Now().String(),
+			Timestamp: time.Now().UTC().Unix(),
 		}
 		err = validate.Struct(payload)
 		if err == nil {

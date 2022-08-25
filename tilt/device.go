@@ -20,5 +20,5 @@ type TiltPayload struct {
 	Major     uint16
 	Minor     uint16
 	Rssi      int
-	Timestamp string
+	Timestamp int64
 }

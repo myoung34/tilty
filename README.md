@@ -46,40 +46,46 @@ logfile = /var/log/foo.log # defaults to stdout
 
 # SQLite example
 [sqlite]
+enabled = true
 file = /etc/tilty/tilt.sqlite
 
 # Generic application/json example
 [webhook]
-url = http://www.foo.com
-headers = {"Content-Type": "application/json"}
-template = {"color": "{{ color }}", "gravity": {{ gravity }}, "mac": "{{ mac }}", "temp": {{ temp }}, "timestamp": "{{ timestamp }}"}
-method = POST
+enabled = true
+url = "http://www.foo.com"
+headers = "{\"Content-Type\": \"application/json\"}"
+template = "{\"color\": \"{{.Color}}\", \"gravity\": {{.Gravity}}, \"mac\": \"{{.Mac}}\", \"temp\": {{.Temp}}, \"timestamp\": \"{{.Timestamp}}\", \"gravity_unit\": \"G\", \"temp_unit\": \"F\"}"
+method = "POST"
 
 # Brewstat.us example
 [webhook]
-url = https://www.brewstat.us/tilt/0yjRbGd2/log
-headers = {"Content-Type": "application/x-www-form-urlencoded; charset=utf-8"}
-template = {"Color": "{{ color }}", "SG": {{ gravity }}, "Temp": {{ temp }}, "Timepoint": "{{ timestamp }}"}
-method = POST
+enabled = true
+url = "https://www.brewstat.us/tilt/0yjRbGd2/log"
+headers = "{\"Content-Type\": \"application/json\"}"
+template = "{\"Color\": \"{{.Color}}\", \"SG\": {{.Gravity}}, \"Temp\": {{.Temp}}, \"Timepoint\": \"{{.Timestamp}}\"}"
+method = "POST"
 
 # Brewers Friend example
 [webhook]
-url = https://log.brewersfriend.com/tilt/3009ec67c6d81276185c90824951bd32bg
-headers = {"Content-Type": "application/x-www-form-urlencoded"}
-template = {"SG": {{ gravity }}, "Temp": {{ temp }}, "Color": "{{ color }}"}
-method = POST
+enabled = true
+url = "https://log.brewersfriend.com/tilt/3009ec67c6d81276185c90824951bd32bg"
+headers = "{\"Content-Type\": \"application/json\"}"
+template = "{\"SG\": \"{{.Gravity}}\", \"Temp\": {{.Temp}}, \"Color\": {{.Color}}}"
+method = "POST"
 
 # Brewfather custom stream example
 [webhook]
-url = https://log.brewfather.net/stream?id=aTHF9WlXKrAb1C
-headers = {"Content-Type": "application/json"}
-template = {"name": "Tilt {{ color }}", "gravity": {{ gravity }}, "gravity_unit": "G", "temp": {{ temp }}, "temp_unit": "F"}
-method = POST
+enabled = true
+url = "https://log.brewfather.net/stream?id=aTHF9WlXKrAb1C"
+headers = "{\"Content-Type\": \"application/json\"}"
+template = "{\"name\": \"Tilt {{.Color}}\", \"gravity\": {{.Gravity}}, \"gravity_unit\": \"G\", \"temp\": {{.Temp}}, \"temp_unit\": \"F\"}"
+method = "POST"
 
 [datadog]
+enabled = true
 # Note: make sure that the dd agent has DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
-host = statsdhost.corp.com
-port = 8125
+statsd_host = "statsdhost.corp.com"
+statsd_port = 8125
 
 ```
 

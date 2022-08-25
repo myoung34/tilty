@@ -43,7 +43,10 @@ func WebhookEmit(payload tilt.TiltPayload, emitterConfig interface{}) (string, e
 	}
 	level.Info(tilt.Logger).Log("emitters.webhook", fmt.Sprintf("%+v", payload))
 
-	tmpl, err := template.New("test").Parse(`{"name": "Tilt {{.Color}}", "gravity": {{.Gravity}}, "gravity_unit": "G", "temp": {{.Temp}}, "temp_unit": "F"}`)
+	tmpl, err := template.New("webhook").Parse(`{"name": "Tilt {{.Color}}", "gravity": {{.Gravity}}, "gravity_unit": "G", "temp": {{.Temp}}, "temp_unit": "F"}`)
+	if len(webhook.Template) > 0 {
+		tmpl, err = template.New("webhook").Parse(webhook.Template)
+	}
 	if err != nil {
 		level.Error(tilt.Logger).Log("emitters.webhook", err)
 		return "", err

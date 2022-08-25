@@ -5,5 +5,5 @@ type Template struct {
 	Gravity   string
 	Mac       string
 	Temp      string
-	Timestamp string
+	Timestamp int64
 }
