@@ -5,7 +5,7 @@ linter:
     target: ./...
     config: .golangci.yml
     enable:
-      - golint
+      - revive
       - gosec
     fast: true
     no-config: false

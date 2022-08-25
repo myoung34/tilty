@@ -106,7 +106,7 @@ func callEmitter(funcName string, payload tilt.Payload, emitterConfig interface{
 	in := make([]reflect.Value, 2)
 	in[0] = reflect.ValueOf(payload)
 	in[1] = reflect.ValueOf(emitterConfig)
-	var res []reflect.Value = f.Call(in)
+	var res = f.Call(in)
 	result = res[0].Interface()
 	return
 }
