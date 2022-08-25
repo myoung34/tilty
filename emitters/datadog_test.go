@@ -15,14 +15,14 @@ func TestDatadogEmit(t *testing.T) {
 	sampleConfig.ConfigData.Set("datadog.statsd_host", "testing")
 	sampleConfig.ConfigData.Set("datadog.statsd_port", "8125")
 
-	payload := tilt.TiltPayload{
-		Id:        "0987654321",
+	payload := tilt.Payload{
+		ID:        "0987654321",
 		Mac:       "66:77:88:99:00",
 		Color:     "BLACK",
 		Major:     65,
 		Minor:     1098,
 		Rssi:      -7,
-		Timestamp: "2019-11-10 23:59:00 +0000 UTC",
+		Timestamp: 1661445284,
 	}
 	resp, err := DatadogEmitWithClient(payload, sampleConfig.ConfigData.Get("datadog"), &statsd.NoOpClient{})
 	assert.Equal(t, nil, err)

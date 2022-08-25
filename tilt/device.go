@@ -13,12 +13,12 @@ var TiltMap = map[string]string{
 	"25cc0b60914de76ead903f903bfd5e53": "MIGHTY",
 }
 
-type TiltPayload struct {
-	Id        string
+type Payload struct {
+	ID        string
 	Mac       string
 	Color     string `validate:"required"`
 	Major     uint16
 	Minor     uint16
 	Rssi      int
-	Timestamp string
+	Timestamp int64
 }

@@ -4,8 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/DataDog/datadog-go/v5/statsd"
-	"github.com/go-kit/kit/log/level"
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/go-kit/log/level"
 	"github.com/myoung34/tilty/tilt"
 )
 
@@ -15,7 +14,7 @@ type Datadog struct {
 	StatsdPort int    `json:"statsd_port"`
 }
 
-func DatadogEmitWithClient(payload tilt.TiltPayload, emitterConfig interface{}, client statsd.ClientInterface) (string, error) {
+func DatadogEmitWithClient(payload tilt.Payload, emitterConfig interface{}, client statsd.ClientInterface) (string, error) {
 
 	defer client.Close()
 
@@ -39,7 +38,7 @@ func DatadogEmitWithClient(payload tilt.TiltPayload, emitterConfig interface{}, 
 	return "", nil
 }
 
-func DatadogEmit(payload tilt.TiltPayload, emitterConfig interface{}) (string, error) {
+func DatadogEmit(payload tilt.Payload, emitterConfig interface{}) (string, error) {
 	datadog := Datadog{}
 	jsonString, _ := json.Marshal(emitterConfig)
 	json.Unmarshal(jsonString, &datadog)

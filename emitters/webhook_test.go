@@ -11,9 +11,9 @@ import (
 
 type TiltWebhookTest struct {
 	Type     string
-	Payload  tilt.TiltPayload
+	Payload  tilt.Payload
 	Enabled  bool
-	Url      string
+	URL      string
 	Headers  string
 	Template string
 	Method   string
@@ -43,23 +43,23 @@ func TestWebhook(t *testing.T) {
 			name: "POST",
 			in: TiltWebhookTest{
 				Type: "webhook",
-				Payload: tilt.TiltPayload{
-					Id:        "1234567890",
+				Payload: tilt.Payload{
+					ID:        "1234567890",
 					Mac:       "11:22:33:44:55",
 					Color:     "RED",
 					Major:     90,
 					Minor:     1024,
 					Rssi:      -67,
-					Timestamp: "2009-11-10 23:00:00 +0000 UTC",
+					Timestamp: 1661445284,
 				},
 				Enabled:  true,
-				Url:      "http://something.com",
+				URL:      "http://something.com",
 				Headers:  "{\"Content-Type\": \"application/json\", \"Foo\": \"bar\"}",
-				Template: "{\"color\": \"{{ color }}\", \"gravity\": {{ gravity }}, \"mac\": \"{{ mac }}\", \"temp\": {{ temp }}, \"timestamp\": \"{{ timestamp }}\"}",
+				Template: "{\"color\": \"{{.Color}}\", \"gravity\": {{.Gravity}}, \"mac\": \"{{.Mac}}\", \"temp\": {{.Temp}}, \"timestamp\": \"{{.Timestamp}}\", \"gravity_unit\": \"G\", \"temp_unit\": \"F\"}",
 				Method:   "POST",
 			},
 			out: TiltTest{
-				Response:      "{\"Response\":\"{\\\"name\\\": \\\"Tilt RED\\\", \\\"gravity\\\": 1024, \\\"gravity_unit\\\": \\\"G\\\", \\\"temp\\\": 90, \\\"temp_unit\\\": \\\"F\\\"}\"}",
+				Response:      "{\"Response\":\"{\\\"color\\\": \\\"RED\\\", \\\"gravity\\\": 1024, \\\"mac\\\": \\\"11:22:33:44:55\\\", \\\"temp\\\": 90, \\\"timestamp\\\": \\\"1661445284\\\", \\\"gravity_unit\\\": \\\"G\\\", \\\"temp_unit\\\": \\\"F\\\"}\"}",
 				CallCount:     1,
 				CallSignature: "POST http://something.com",
 			},
@@ -68,23 +68,23 @@ func TestWebhook(t *testing.T) {
 			name: "GET",
 			in: TiltWebhookTest{
 				Type: "webhook",
-				Payload: tilt.TiltPayload{
-					Id:        "0987654321",
+				Payload: tilt.Payload{
+					ID:        "0987654321",
 					Mac:       "66:77:88:99:00",
 					Color:     "BLACK",
 					Major:     65,
 					Minor:     1098,
 					Rssi:      -7,
-					Timestamp: "2019-11-10 23:59:00 +0000 UTC",
+					Timestamp: 1661445284,
 				},
 				Enabled:  true,
-				Url:      "http://fake.com",
+				URL:      "http://fake.com",
 				Headers:  "{\"Content-Type\": \"application/json\"}",
-				Template: "{\"color\": \"{{ color }}\", \"gravity\": {{ gravity }}, \"mac\": \"{{ mac }}\", \"temp\": {{ temp }}, \"timestamp\": \"{{ timestamp }}\"}",
+				Template: "{\"color\": \"{{.Color}}\", \"gravity\": {{.Gravity}}, \"mac\": \"{{.Mac}}\", \"temp\": {{.Temp}}, \"timestamp\": \"{{.Timestamp}}\", \"gravity_unit\": \"G\", \"temp_unit\": \"F\"}",
 				Method:   "GET",
 			},
 			out: TiltTest{
-				Response:      "{\"Response\":\"{\\\"name\\\": \\\"Tilt BLACK\\\", \\\"gravity\\\": 1098, \\\"gravity_unit\\\": \\\"G\\\", \\\"temp\\\": 65, \\\"temp_unit\\\": \\\"F\\\"}\"}",
+				Response:      "{\"Response\":\"{\\\"color\\\": \\\"BLACK\\\", \\\"gravity\\\": 1098, \\\"mac\\\": \\\"66:77:88:99:00\\\", \\\"temp\\\": 65, \\\"timestamp\\\": \\\"1661445284\\\", \\\"gravity_unit\\\": \\\"G\\\", \\\"temp_unit\\\": \\\"F\\\"}\"}",
 				CallCount:     2,
 				CallSignature: "GET http://fake.com",
 			},
@@ -92,7 +92,7 @@ func TestWebhook(t *testing.T) {
 	}
 	for _, theT := range theTests {
 
-		httpmock.RegisterResponder(theT.in.Method, theT.in.Url,
+		httpmock.RegisterResponder(theT.in.Method, theT.in.URL,
 			func(req *http.Request) (*http.Response, error) {
 				buf := new(bytes.Buffer)
 				buf.ReadFrom(req.Body)
@@ -104,7 +104,7 @@ func TestWebhook(t *testing.T) {
 		t.Run(theT.name, func(t *testing.T) {
 			sampleConfig := tilt.ParseConfig("some/file/somewhere.toml")
 
-			sampleConfig.ConfigData.Set("webhook.url", theT.in.Url)
+			sampleConfig.ConfigData.Set("webhook.url", theT.in.URL)
 			sampleConfig.ConfigData.Set("webhook.headers", theT.in.Headers)
 			sampleConfig.ConfigData.Set("webhook.template", theT.in.Template)
 			sampleConfig.ConfigData.Set("webhook.method", theT.in.Method)
