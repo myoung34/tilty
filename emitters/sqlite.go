@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/go-kit/kit/log/level"
-	_ "github.com/mattn/go-sqlite3"
+  "github.com/go-kit/log/level"
+	_ "github.com/mattn/go-sqlite3" // Per docs
 	"github.com/myoung34/tilty/tilt"
 	"log"
 )
@@ -15,7 +15,7 @@ type SQLite struct {
 	File    string
 }
 
-func SQLiteEmit(payload tilt.TiltPayload, emitterConfig interface{}) (string, error) {
+func SQLiteEmit(payload tilt.Payload, emitterConfig interface{}) (string, error) {
 	sqlite := SQLite{}
 	jsonString, _ := json.Marshal(emitterConfig)
 	json.Unmarshal(jsonString, &sqlite)

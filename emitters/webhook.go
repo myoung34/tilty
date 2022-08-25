@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/go-kit/kit/log/level"
+  "github.com/go-kit/log/level"
 	"github.com/myoung34/tilty/tilt"
 	"io"
 	"net/http"
@@ -14,18 +14,18 @@ import (
 
 type Webhook struct {
 	Enabled  bool
-	Url      string
+	URL      string
 	Headers  string
 	Template string
 	Method   string
 }
 
-func WebhookEmit(payload tilt.TiltPayload, emitterConfig interface{}) (string, error) {
+func WebhookEmit(payload tilt.Payload, emitterConfig interface{}) (string, error) {
 	webhook := Webhook{}
 	jsonString, _ := json.Marshal(emitterConfig)
 	json.Unmarshal(jsonString, &webhook)
 
-	level.Info(tilt.Logger).Log("emitters.webhook", fmt.Sprintf("%s", webhook.Url))
+	level.Info(tilt.Logger).Log("emitters.webhook", webhook.URL)
 	level.Info(tilt.Logger).Log("emitters.webhook", fmt.Sprintf("%v", webhook.Enabled))
 	level.Info(tilt.Logger).Log("emitters.webhook", fmt.Sprintf("%+v", webhook.Headers))
 	level.Info(tilt.Logger).Log("emitters.webhook", fmt.Sprintf("%+v", webhook.Template))
@@ -59,7 +59,7 @@ func WebhookEmit(payload tilt.TiltPayload, emitterConfig interface{}) (string, e
 	bodyReader := bytes.NewReader(tpl.Bytes())
 
 	// Set up the request
-	req, err := http.NewRequest(webhook.Method, webhook.Url, bodyReader)
+	req, err := http.NewRequest(webhook.Method, webhook.URL, bodyReader)
 	if err != nil {
 		level.Error(tilt.Logger).Log("emitters.webhook", err)
 		return "", err

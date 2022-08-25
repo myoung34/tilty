@@ -15,8 +15,8 @@ func TestSQLite(t *testing.T) {
 	sampleConfig.ConfigData.Set("sqlite.enabled", true)
 	sampleConfig.ConfigData.Set("sqlite.file", "foo.db")
 
-	payload := tilt.TiltPayload{
-		Id:        "0987654321",
+	payload := tilt.Payload{
+		ID:        "0987654321",
 		Mac:       "66:77:88:99:00",
 		Color:     "BLACK",
 		Major:     65,

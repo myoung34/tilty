@@ -11,9 +11,9 @@ import (
 
 type TiltWebhookTest struct {
 	Type     string
-	Payload  tilt.TiltPayload
+	Payload  tilt.Payload
 	Enabled  bool
-	Url      string
+	URL      string
 	Headers  string
 	Template string
 	Method   string
@@ -43,8 +43,8 @@ func TestWebhook(t *testing.T) {
 			name: "POST",
 			in: TiltWebhookTest{
 				Type: "webhook",
-				Payload: tilt.TiltPayload{
-					Id:        "1234567890",
+				Payload: tilt.Payload{
+					ID:        "1234567890",
 					Mac:       "11:22:33:44:55",
 					Color:     "RED",
 					Major:     90,
@@ -53,7 +53,7 @@ func TestWebhook(t *testing.T) {
 					Timestamp: 1661445284,
 				},
 				Enabled:  true,
-				Url:      "http://something.com",
+				URL:      "http://something.com",
 				Headers:  "{\"Content-Type\": \"application/json\", \"Foo\": \"bar\"}",
 				Template: "{\"color\": \"{{.Color}}\", \"gravity\": {{.Gravity}}, \"mac\": \"{{.Mac}}\", \"temp\": {{.Temp}}, \"timestamp\": \"{{.Timestamp}}\", \"gravity_unit\": \"G\", \"temp_unit\": \"F\"}",
 				Method:   "POST",
@@ -68,8 +68,8 @@ func TestWebhook(t *testing.T) {
 			name: "GET",
 			in: TiltWebhookTest{
 				Type: "webhook",
-				Payload: tilt.TiltPayload{
-					Id:        "0987654321",
+				Payload: tilt.Payload{
+					ID:        "0987654321",
 					Mac:       "66:77:88:99:00",
 					Color:     "BLACK",
 					Major:     65,
@@ -78,7 +78,7 @@ func TestWebhook(t *testing.T) {
 					Timestamp: 1661445284,
 				},
 				Enabled:  true,
-				Url:      "http://fake.com",
+				URL:      "http://fake.com",
 				Headers:  "{\"Content-Type\": \"application/json\"}",
 				Template: "{\"color\": \"{{.Color}}\", \"gravity\": {{.Gravity}}, \"mac\": \"{{.Mac}}\", \"temp\": {{.Temp}}, \"timestamp\": \"{{.Timestamp}}\", \"gravity_unit\": \"G\", \"temp_unit\": \"F\"}",
 				Method:   "GET",
@@ -92,7 +92,7 @@ func TestWebhook(t *testing.T) {
 	}
 	for _, theT := range theTests {
 
-		httpmock.RegisterResponder(theT.in.Method, theT.in.Url,
+		httpmock.RegisterResponder(theT.in.Method, theT.in.URL,
 			func(req *http.Request) (*http.Response, error) {
 				buf := new(bytes.Buffer)
 				buf.ReadFrom(req.Body)
@@ -104,7 +104,7 @@ func TestWebhook(t *testing.T) {
 		t.Run(theT.name, func(t *testing.T) {
 			sampleConfig := tilt.ParseConfig("some/file/somewhere.toml")
 
-			sampleConfig.ConfigData.Set("webhook.url", theT.in.Url)
+			sampleConfig.ConfigData.Set("webhook.url", theT.in.URL)
 			sampleConfig.ConfigData.Set("webhook.headers", theT.in.Headers)
 			sampleConfig.ConfigData.Set("webhook.template", theT.in.Template)
 			sampleConfig.ConfigData.Set("webhook.method", theT.in.Method)

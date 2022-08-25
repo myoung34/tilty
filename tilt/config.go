@@ -3,7 +3,7 @@ package tilt
 import (
 	"errors"
 	"fmt"
-	"github.com/go-kit/kit/log/level"
+  "github.com/go-kit/log/level"
 	"github.com/spf13/viper"
 	"os"
 	"path/filepath"

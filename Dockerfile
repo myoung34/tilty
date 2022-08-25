@@ -11,6 +11,7 @@ RUN go build -o /usr/local/bin/tilty main.go
 FROM alpine:3.16
 LABEL maintainer="3vilpenguin@gmail.com"
 
+# hadolint ignore=DL3018
 RUN apk add -U --no-cache bluez
 
 COPY --from=builder /usr/local/bin/tilty /usr/local/bin/tilty
