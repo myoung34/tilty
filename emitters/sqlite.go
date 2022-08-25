@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-  "github.com/go-kit/log/level"
+	"github.com/go-kit/log/level"
 	_ "github.com/mattn/go-sqlite3" // Per docs
 	"github.com/myoung34/tilty/tilt"
 	"log"

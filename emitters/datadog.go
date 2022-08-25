@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/DataDog/datadog-go/v5/statsd"
-  "github.com/go-kit/log/level"
+	"github.com/go-kit/log/level"
 	"github.com/myoung34/tilty/tilt"
 )
 

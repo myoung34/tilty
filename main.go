@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-  "github.com/go-kit/log/level"
+	"github.com/go-kit/log/level"
 	"github.com/go-playground/validator/v10"
 	"github.com/myoung34/gatt"
 	"github.com/myoung34/gatt/examples/option"

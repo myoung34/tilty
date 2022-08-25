@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-  "github.com/go-kit/log/level"
+	"github.com/go-kit/log/level"
 	"github.com/myoung34/tilty/tilt"
 	"io"
 	"net/http"
