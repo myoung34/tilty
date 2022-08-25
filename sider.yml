@@ -1,0 +1,17 @@
+linter:
+  goodcheck:
+    config: goodcheck.yml
+  golangci_lint:
+    target: ./...
+    config: .golangci.yml
+    enable:
+      - golint
+      - gosec
+    fast: true
+    no-config: false
+    skip-dirs:
+      - vendor
+    uniq-by-line: true
+
+ignore:
+  - "vendor/**"

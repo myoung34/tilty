@@ -1,0 +1,5 @@
+rules:
+  - id: com.example.github
+    pattern: Github
+    message: |
+      GitHub is GitHub, not Github
