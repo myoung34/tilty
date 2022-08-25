@@ -1,0 +1,12 @@
+[general]
+logging_level = "DEBUG"
+gravity_offset = -0.001 # subtract 0.001 gravity
+temperature_offset = 3 # add 3 degrees
+logfile = "/var/log/foo.log" # defaults to stdout
+
+[webhook]
+enabled = true
+url = "http://192.168.2.133:8000"
+headers = "{\"Content-Type\": \"application/json\", \"Foo\": \"bar\"}"
+template = "{\"color\": \"{{ color }}\", \"gravity\": {{ gravity }}, \"mac\": \"{{ mac }}\", \"temp\": {{ temp }}, \"timestamp\": \"{{ timestamp }}\"}"
+method = "POST"

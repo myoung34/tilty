@@ -8,3 +8,6 @@ __pycache__
 .coverage
 *.sw[o-p]
 config.ini
+coverage.out
+.idea
+*.db

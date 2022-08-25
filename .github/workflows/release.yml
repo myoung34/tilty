@@ -5,86 +5,23 @@ on:
       - '*'
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ '3.7', '3.8', '3.9', '3.10' ]
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Setup python
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
-        architecture: x64
-    - name: Get short Python version
-      id: full-python-version
-      shell: bash
-      run: echo ::set-output name=version::$(python -c "import sys; print(f'py{sys.version_info.major}{sys.version_info.minor}')")
-    - name: install pre-reqs
-      run: sudo apt-get update && sudo apt-get install libbluetooth-dev && pip install poetry pre-commit
-    - name: lint
-      run: pre-commit run --all-files
-    - name: Configure poetry
-      run: poetry config virtualenvs.in-project true
-    - name: Install dependencies
-      run: poetry install
-    - name: Run tox
-      run: poetry run tox -e ${{ steps.full-python-version.outputs.version }}
-  create-release:
-    name: Create Release
-    needs: [test]
+  goreleaser:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-  upload_to_pypi:
-    runs-on: ubuntu-latest
-    needs: [create-release]
-    steps:
-    - name: Copy Repo Files
-      uses: actions/checkout@v2
-    - name: Setup python
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-        architecture: x64
-    - name: pre-reqs
-      run: pip install twine wheel
-    - name: Build
-      run: python setup.py sdist bdist_wheel
-    - name: upload
-      run: python -m twine upload dist/* --verbose
-      env:
-        TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-        TWINE_PASSWORD : ${{ secrets.TWINE_PASSWORD }}
-  ubuntu_tag_deploy:
-    runs-on: ubuntu-latest
-    needs: [create-release]
-    steps:
-    - name: Copy Repo Files
-      uses: actions/checkout@v2
-    - name: get version
-      run: echo 'TAG='$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g") >> $GITHUB_ENV
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: crazy-max/ghaction-docker-buildx@v1
-      with:
-        buildx-version: latest
-    - name: Available platforms
-      run: echo ${{ steps.buildx.outputs.platforms }}
-    - name: Login
-      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
-    - name: Build
-      run: docker buildx build -t myoung34/tilty:${TAG} --output "type=image,push=true" --platform linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 .
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      -
+        name: Set up Go
+        uses: actions/setup-go@v3
+      -
+        name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v3
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

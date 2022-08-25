@@ -1,6 +1,5 @@
 rules:
-  - id: com.sample.GitHub
-    pattern:
-      literal: Github
-      case_sensitive: true
-    message: Write GitHub, not Github
+  - id: com.example.github
+    pattern: Github
+    message: |
+      GitHub is GitHub, not Github
