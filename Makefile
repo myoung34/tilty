@@ -5,7 +5,7 @@ test:
 
 
 build:
-	GODEBUG=cgocheck=0 go build -o dist/tilty
+	GOOS=linux GOARCH=arm GODEBUG=cgocheck=0 go build -o dist/tilty
 
 run:
 	sudo ./dist/tilty -c test.ini
