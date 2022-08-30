@@ -1,3 +1,10 @@
+## 1.2.0
+
+IMPROVEMENTS:
+
+ * Add influxdb emitter
+
+
 ## 1.1.0
 
 FIXES:
