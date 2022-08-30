@@ -5,6 +5,7 @@ Tilty
 [![Docker Pulls](https://img.shields.io/docker/pulls/myoung34/tilty.svg)](https://hub.docker.com/r/myoung34/tilty)
 
 ![](assets/datadog.png)
+![](assets/influxdb.png)
 
 A CLI to capture and emit events from your [tilt hydrometer](https://tilthydrometer.com/)
 
@@ -25,6 +26,7 @@ The Tilt supports writing to a google doc which you could use with something lik
   * Generic (Send to any endpoint with any type)
   * Brewstat.us (Example below)
   * BrewersFriend (Example below)
+* InfluxDB (1.8+)
 * Datadog (dogstatsd)
 * SQLite
 
@@ -86,6 +88,15 @@ enabled = true
 # Note: make sure that the dd agent has DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
 statsd_host = "statsdhost.corp.com"
 statsd_port = 8125
+
+[influxdb]
+url = "http://localhost:8086"
+verify_ssl = true
+bucket = "tilty"
+org = "Mine"
+token = "myuser:password"
+gravity_payload_template = "gravity,color={{.Color}},mac={{.Mac}} sg={{.Gravity}}"
+temperature_payload_template = "temperature,color={{.Color}},mac={{.Mac}} temp={{.Temp}}"
 
 ```
 

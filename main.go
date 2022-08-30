@@ -21,9 +21,10 @@ var config = tilt.Config{}
 var validate = validator.New()
 
 var EmittersMap = map[string]interface{}{
-	"webhook.emit": emitters.WebhookEmit,
-	"sqlite.emit":  emitters.SQLiteEmit,
-	"datadog.emit": emitters.DatadogEmit,
+	"webhook.emit":  emitters.WebhookEmit,
+	"sqlite.emit":   emitters.SQLiteEmit,
+	"datadog.emit":  emitters.DatadogEmit,
+	"influxdb.emit": emitters.InfluxDBEmit,
 }
 
 func main() {
